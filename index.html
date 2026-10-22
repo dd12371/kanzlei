@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kanzleischriften-Kompendium & Konverter</title>
+  <title>Großes Nachschlagewerk aller Kanzlei- & Reduktionsschriften</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -81,8 +81,8 @@
       border: 1px solid var(--border-color);
       color: var(--text-muted);
       font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      padding: 0.75rem 1.75rem;
+      font-size: 0.95rem;
+      padding: 0.75rem 1.4rem;
       border-radius: var(--radius-md);
       cursor: pointer;
       display: flex;
@@ -262,6 +262,7 @@
       display: flex;
       align-items: center;
       gap: 0.6rem;
+      flex-wrap: wrap;
     }
 
     .option-group select {
@@ -500,17 +501,20 @@
 
 <div class="container">
   <header>
-    <h1 id="appHeaderTitle">Dionysos'sche Kanzleischrift</h1>
-    <p id="appHeaderDesc">Bidirektionaler Text- & Zahlenkonverter mit antikem milesischem Zahlensystem</p>
+    <h1 id="appHeaderTitle">Großes Nachschlagewerk aller Alphabete</h1>
+    <p id="appHeaderDesc">Bidirektionaler Text- & Zahlenkonverter für Kanzlei- & Reduktionsschriften</p>
   </header>
 
   <!-- SCRIPT SWITCHER TABS -->
   <div class="script-nav-tabs">
     <button class="script-tab-btn active" id="btnScriptDionysos" onclick="switchScript('dionysos')">
-      <span>📜</span> Dionysos'sche Kanzleischrift (Griechisches Zahlensystem)
+      <span>📜</span> 1. Dionysos'sche Kanzleischrift
     </button>
     <button class="script-tab-btn" id="btnScriptDeutsch" onclick="switchScript('deutsch')">
-      <span>✒️</span> Deutsche Kanzleischrift (Indisch-Arabische Zahlen & Abbreviaturen)
+      <span>✒️</span> 2. Deutsche Kanzleischrift
+    </button>
+    <button class="script-tab-btn" id="btnScriptWetzel" onclick="switchScript('wetzel')">
+      <span>🏛️</span> 3. Wetzel'sche Reduktionsschrift
     </button>
   </div>
 
@@ -531,7 +535,7 @@
         <textarea id="inputText" placeholder="Hier tippen oder einfügen..."></textarea>
         <div class="panel-footer">
           <span id="sourceCharCount">0 Zeichen</span>
-          <span id="sourceModeHint">Modus: Normalschrift ➔ Kanzlei</span>
+          <span id="sourceModeHint">Modus: Normalschrift ➔ Schriftart</span>
         </div>
       </div>
 
@@ -553,7 +557,7 @@
         <textarea id="outputText" readonly class="kanzlei-font" placeholder="Konvertierter Text erscheint hier..."></textarea>
         <div class="panel-footer">
           <span id="targetCharCount">0 Zeichen</span>
-          <span>Echtzeit-Synchronisiert</span>
+          <span>100% Bijektive Echtzeit-Synchronisation</span>
         </div>
       </div>
     </div>
@@ -574,16 +578,37 @@
       <div class="option-group" id="deutschOptions" style="display: none;">
         <label class="checkbox-label">
           <input type="checkbox" id="abbrEnCheck" checked onchange="runConversion()">
-          <strong>Abbreviatur -en (◌̨)</strong>
+          <strong>-en (◌̨)</strong>
         </label>
-        <label class="checkbox-label" style="margin-left: 0.8rem;">
+        <label class="checkbox-label" style="margin-left: 0.6rem;">
           <input type="checkbox" id="abbrErCheck" checked onchange="runConversion()">
-          <strong>Abbreviatur -er (◌͛)</strong>
+          <strong>-er (◌͛)</strong>
         </label>
-        <label class="checkbox-label" style="margin-left: 0.8rem;">
+        <label class="checkbox-label" style="margin-left: 0.6rem;">
+          <input type="checkbox" id="abbrDeCheck" checked onchange="runConversion()">
+          <strong>-de (◌ͩ)</strong>
+        </label>
+        <label class="checkbox-label" style="margin-left: 0.6rem;">
+          <input type="checkbox" id="abbrTeCheck" checked onchange="runConversion()">
+          <strong>-te (◌ͭ)</strong>
+        </label>
+        <label class="checkbox-label" style="margin-left: 0.6rem;">
+          <input type="checkbox" id="abbrInCheck" checked onchange="runConversion()">
+          <strong>-in (◌ͥ)</strong>
+        </label>
+        <label class="checkbox-label" style="margin-left: 0.6rem;">
+          <input type="checkbox" id="abbrUnCheck" checked onchange="runConversion()">
+          <strong>un- (◌ͧ)</strong>
+        </label>
+        <label class="checkbox-label" style="margin-left: 0.6rem;">
           <input type="checkbox" id="virgelCheck" checked onchange="runConversion()">
-          <strong>Virgel statt Komma ( , ➔ ⁄ )</strong>
+          <strong>Virgel ( , ➔ ⁄ )</strong>
         </label>
+      </div>
+
+      <!-- Options for Wetzel -->
+      <div class="option-group" id="wetzelOptions" style="display: none;">
+        <span style="color: var(--gold-light);">Römisches Zahlensystem aktiv (1 bis 3.999.999 mit Vinculum ◌̅)</span>
       </div>
 
       <!-- Info Hint regarding numbers -->
@@ -598,12 +623,12 @@
     <div class="keyboard-title">
       <span id="keyboardTitleText">Alphabetische Sonderzeichen- & Zifferntastatur</span>
       <span style="font-size: 0.8rem; color: var(--text-muted); font-family: 'Inter', sans-serif;">
-        Strikt sortiert: A–Z (Umlaute direkt folgend), Groß vor Klein
+        Strikt sortiert: A–Z (Umlaute folgend), Groß vor Klein
       </span>
     </div>
 
     <div class="keyboard-tabs" id="keyboardTabContainer">
-      <!-- Tabs populated dynamically -->
+      <!-- Populated dynamically -->
     </div>
 
     <div class="char-palette" id="paletteGrid"></div>
@@ -611,7 +636,7 @@
 
   <!-- DETAILED RULES & COMPENDIUM -->
   <div class="docs-section" id="docsContainer">
-    <!-- Content injected based on active script tab -->
+    <!-- Populated dynamically -->
   </div>
 </div>
 
@@ -626,38 +651,29 @@
 
 // 1. DIONYSOS'SCHE KANZLEISCHRIFT
 const DIONYSOS_SPEC = [
-  // A
   { de: "A", maj: "Α", min: "α", group: "A-E", desc: "Vokal A (Alpha)" },
   { de: "AA", maj: "Ā", min: "ā", group: "A-E", desc: "Langes doppeltes AA" },
-  { de: "AH", maj: "Α’", min: "α’", wordEnd: true, group: "A-E", desc: "AH am Wortende (Dehnung)" },
+  { de: "AH", maj: "Α’", min: "α’", group: "A-E", desc: "AH Dehnung" },
   { de: "AI", maj: "ΑΙ", min: "αι", group: "A-E", desc: "Diphthong AI" },
   { de: "AU", maj: "Ά", min: "ά", group: "A-E", desc: "Diphthong AU" },
-  // Ä
   { de: "Ä", maj: "Αͤ", min: "αͤ", group: "A-E", desc: "Umlaut Ä" },
-  { de: "ÄH", maj: "Αͤ’", min: "αͤ’", wordEnd: true, group: "A-E", desc: "ÄH am Wortende" },
+  { de: "ÄH", maj: "Αͤ’", min: "αͤ’", group: "A-E", desc: "ÄH Dehnung" },
   { de: "ÄU", maj: "Αͤ́", min: "αͤ́", group: "A-E", desc: "Diphthong ÄU" },
-  // B
   { de: "B", maj: "Β", min: "β", group: "A-E", desc: "Konsonant B (Beta)" },
-  // C
   { de: "C", maj: "C", min: "c", group: "A-E", desc: "Konsonant C" },
   { de: "CH (Ach-Laut)", maj: "Χ", min: "χ", group: "A-E", desc: "Ach-Laut nach a, o, u, au" },
-  { de: "CH (Ich-Laut)", maj: "Ç", min: "ç", group: "A-E", desc: "Ich-Laut, Anlaut, nach Konsonanten & hellen Vokalen (inkl. eu, äu)" },
+  { de: "CH (Ich-Laut)", maj: "Ç", min: "ç", group: "A-E", desc: "Ich-Laut, Anlaut, nach Konsonanten & hellen Vokalen" },
   { de: "CK", maj: "Č", min: "č", group: "A-E", desc: "CK-Laut" },
-  // D
   { de: "D", maj: "Δ", min: "δ", group: "A-E", desc: "Konsonant D (Delta)" },
-  // E
   { de: "E (kurz)", maj: "Ε", min: "ε", group: "A-E", desc: "Kurzes E / Schwa" },
   { de: "E (lang)", maj: "Η", min: "η", group: "A-E", desc: "Langes E (Eta)" },
-  { de: "EE", maj: "Ē", min: "ē", group: "A-E", desc: "Langes doppeltes EE" },
-  { de: "EH", maj: "Η’", min: "η’", wordEnd: true, group: "A-E", desc: "EH am Wortende (Dehnung)" },
+  { de: "EE", maj: "Η̄", min: "η̄", group: "A-E", desc: "Langes doppeltes EE" },
+  { de: "EH", maj: "Η’", min: "η’", group: "A-E", desc: "EH Dehnung" },
   { de: "EI", maj: "EY", min: "ey", group: "A-E", desc: "Diphthong EI" },
-  { de: "EU", maj: "É", min: "é", group: "A-E", desc: "Diphthong EU" },
-  // F
+  { de: "EU", maj: "Ή", min: "ή", group: "A-E", desc: "Diphthong EU" },
   { de: "F", maj: "Ṽ", min: "ṽ", group: "F-L", desc: "Konsonant F" },
-  // G
   { de: "G", maj: "Ć", min: "ć", group: "F-L", desc: "Konsonant G" },
-  // H
-  { de: "H", maj: "Ͱ", min: "ͱ", group: "F-L", desc: "Konsonant H (Heta)" },
+  { de: "H", maj: "Ͱ", min: "ͱ", group: "F-L", desc: "Konsonant H (Heta im Anlaut)" },
   { de: "HD", maj: "’Δ", min: "’δ", group: "F-L", desc: "H vor D im Inlaut" },
   { de: "HE", maj: "’Ε", min: "’ε", group: "F-L", desc: "Intervokalisches HE" },
   { de: "HL", maj: "’Λ", min: "’λ", group: "F-L", desc: "H vor L im Inlaut" },
@@ -667,85 +683,62 @@ const DIONYSOS_SPEC = [
   { de: "HS", maj: "’Σ", min: "’σ", endMin: "’ς", group: "F-L", desc: "H vor S (am Wortende ’ς)" },
   { de: "HST", maj: "’Ↄ", min: "’ↄ", group: "F-L", desc: "HST-Kombination" },
   { de: "HT", maj: "’Đ", min: "’đ", group: "F-L", desc: "H vor T im Inlaut" },
-  // I
   { de: "I", maj: "Ι", min: "ι", group: "F-L", desc: "Vokal I (Iota)" },
   { de: "IE", maj: "Ī", min: "ī", group: "F-L", desc: "Langes IE" },
-  // J
   { de: "J", maj: "Í", min: "í", group: "F-L", desc: "Konsonant J" },
-  // K
   { de: "K", maj: "Ĉ", min: "ĉ", group: "F-L", desc: "Konsonant K" },
-  // L
   { de: "L", maj: "Λ", min: "λ", group: "F-L", desc: "Konsonant L (Lambda)" },
   { de: "LL", maj: "Λ̄", min: "λ̄", group: "F-L", desc: "Doppel-LL (mit Überstrich)" },
-  // M
   { de: "M", maj: "Μ", min: "μ", group: "M-R", desc: "Konsonant M (My)" },
   { de: "MM", maj: "Μ̄", min: "μ̄", group: "M-R", desc: "Doppel-MM (mit Überstrich)" },
-  // N
   { de: "N", maj: "Ν", min: "ν", group: "M-R", desc: "Konsonant N (Ny)" },
   { de: "ND", maj: "D̴", min: "ᵭ", group: "M-R", desc: "ND-Laut" },
   { de: "NG", maj: "Ŋ", min: "ŋ", group: "M-R", desc: "NG-Laut (Eng)" },
   { de: "NN", maj: "Ν̄", min: "ν̄", group: "M-R", desc: "Doppel-NN (mit Überstrich)" },
-  // O
   { de: "O", maj: "Ο", min: "ο", group: "M-R", desc: "Vokal O (Omikron)" },
-  { de: "OH", maj: "Ο’", min: "ο’", wordEnd: true, group: "M-R", desc: "OH am Wortende" },
+  { de: "OH", maj: "Ο’", min: "ο’", group: "M-R", desc: "OH Dehnung" },
   { de: "OO", maj: "Ω", min: "ω", group: "M-R", desc: "Langes doppeltes OO (Omega)" },
-  // Ö
   { de: "Ö", maj: "Oͤ", min: "oͤ", group: "M-R", desc: "Umlaut Ö" },
-  { de: "ÖH", maj: "Oͤ’", min: "oͤ’", wordEnd: true, group: "M-R", desc: "ÖH am Wortende" },
-  // P
+  { de: "ÖH", maj: "Oͤ’", min: "oͤ’", group: "M-R", desc: "ÖH Dehnung" },
   { de: "P", maj: "Ƀ", min: "ƀ", group: "M-R", desc: "Konsonant P" },
   { de: "PF", maj: "Ƀ’", min: "ƀ’", group: "M-R", desc: "PF-Laut" },
   { de: "PH", maj: "Φ", min: "φ", group: "M-R", desc: "PH-Laut (Phi)" },
   { de: "PS", maj: "Ψ", min: "ψ", group: "M-R", desc: "PS-Laut (Psi)" },
-  // Q
-  { de: "Q / QU", maj: "Ϙ", min: "ϙ", group: "M-R", desc: "Q / QU (Koppa)" },
-  // R
+  { de: "QU", maj: "Ϙ", min: "ϙ", group: "M-R", desc: "QU (Koppa)" },
   { de: "R", maj: "Ρ", min: "ρ", group: "M-R", desc: "Konsonant R (Rho)" },
-  // S
-  { de: "S (stimmhaft)", maj: "Ζ", min: "ζ", group: "S-Z", desc: "Am Silbenanfang vor Vokal" },
-  { de: "S (stimmlos)", maj: "Σ", min: "σ", group: "S-Z", desc: "Vor Konsonanten & im Inlaut" },
-  { de: "S (Wortende)", maj: "Σ", min: "ς", group: "S-Z", desc: "Schluss-S am absoluten Wortende" },
-  { de: "SCH", maj: "Š", min: "š", group: "S-Z", desc: "SCH-Laut" },
-  { de: "SP", maj: "Ś", min: "ś", group: "S-Z", desc: "SP-Laut" },
+  { de: "S (stimmhaft)", maj: "Ζ", min: "ζ", group: "S-Z", desc: "Am Silbenanlaut vor Vokal" },
+  { de: "S (stimmlos)", maj: "Σ", min: "σ", group: "S-Z", desc: "Im Inlaut & vor Konsonanten" },
+  { de: "S (Wortende)", maj: "Σ", min: "ς", group: "S-Z", desc: "Schluss-S am Wortende" },
+  { de: "SCH", maj: "Σ̌", min: "σ̌", group: "S-Z", desc: "SCH-Laut" },
+  { de: "SP", maj: "Σ́", min: "σ́", group: "S-Z", desc: "SP-Laut" },
   { de: "SS", maj: "Ϻ", min: "ϻ", group: "S-Z", desc: "Doppel-SS (San)" },
   { de: "ST", maj: "Ↄ", min: "ↄ", group: "S-Z", desc: "ST-Laut (Claudian C)" },
-  // ẞ
   { de: "ẞ / ß", maj: "Ϡ", min: "ϡ", group: "S-Z", desc: "Eszett (Sampi)" },
-  // T
   { de: "T", maj: "Đ", min: "đ", group: "S-Z", desc: "Konsonant T" },
   { de: "TH", maj: "Θ", min: "θ", group: "S-Z", desc: "TH-Laut (Theta)" },
   { de: "TZ", maj: "Đ’", min: "đ’", group: "S-Z", desc: "TZ-Laut" },
-  // U
   { de: "U", maj: "V̅", min: "v̅", group: "S-Z", desc: "Vokal U (V mit Makron)" },
-  { de: "UH", maj: "V̅’", min: "v̅’", wordEnd: true, group: "S-Z", desc: "UH am Wortende" },
-  // Ü
+  { de: "UH", maj: "V̅’", min: "v̅’", group: "S-Z", desc: "UH Dehnung" },
   { de: "Ü", maj: "Vͤ", min: "vͤ", group: "S-Z", desc: "Umlaut Ü" },
-  { de: "ÜH", maj: "Vͤ’", min: "vͤ’", wordEnd: true, group: "S-Z", desc: "ÜH am Wortende" },
-  // V
+  { de: "ÜH", maj: "Vͤ’", min: "vͤ’", group: "S-Z", desc: "ÜH Dehnung" },
   { de: "V", maj: "V", min: "v", group: "S-Z", desc: "Konsonant V" },
-  // W
   { de: "W", maj: "Ϝ", min: "ϝ", group: "S-Z", desc: "Konsonant W (Digamma)" },
-  // X
   { de: "X", maj: "Ȝ", min: "ȝ", group: "S-Z", desc: "Konsonant X (Yogh)" },
-  // Y
   { de: "Y", maj: "Ì", min: "ì", group: "S-Z", desc: "Konsonant/Vokal Y" },
-  // Z
   { de: "Z", maj: "Ď", min: "ď", group: "S-Z", desc: "Affrikate Z" }
 ];
 
-// GRIECHISCHES ZAHLENSYSTEM (MILESISCH: 27 ZEICHEN + ARISTERI KERAIA & MYRIADEN)
+// GRIECHISCHES ZAHLENSYSTEM (MILESISCH: 1 BIS 99.999.999)
 const GREEK_NUMS_SPEC = [
-  // Einer (1 - 9)
   { val: 1, sym: "α´", name: "Alpha", type: "Einerstelle (1)" },
   { val: 2, sym: "β´", name: "Beta", type: "Einerstelle (2)" },
   { val: 3, sym: "γ´", name: "Gamma", type: "Einerstelle (3)" },
   { val: 4, sym: "δ´", name: "Delta", type: "Einerstelle (4)" },
   { val: 5, sym: "ε´", name: "Epsilon", type: "Einerstelle (5)" },
-  { val: 6, sym: "ϛ´", name: "Stigma / Digamma", type: "Einerstelle (6)" },
+  { val: 6, sym: "ϛ´", name: "Stigma", type: "Einerstelle (6)" },
   { val: 7, sym: "ζ´", name: "Zeta", type: "Einerstelle (7)" },
   { val: 8, sym: "η´", name: "Eta", type: "Einerstelle (8)" },
   { val: 9, sym: "θ´", name: "Theta", type: "Einerstelle (9)" },
-  // Zehner (10 - 90)
   { val: 10, sym: "ι´", name: "Iota", type: "Zehnerstelle (10)" },
   { val: 20, sym: "κ´", name: "Kappa", type: "Zehnerstelle (20)" },
   { val: 30, sym: "λ´", name: "Lambda", type: "Zehnerstelle (30)" },
@@ -755,7 +748,6 @@ const GREEK_NUMS_SPEC = [
   { val: 70, sym: "ο´", name: "Omikron", type: "Zehnerstelle (70)" },
   { val: 80, sym: "π´", name: "Pi", type: "Zehnerstelle (80)" },
   { val: 90, sym: "ϟ´", name: "Koppa", type: "Zehnerstelle (90)" },
-  // Hunderter (100 - 900)
   { val: 100, sym: "ρ´", name: "Rho", type: "Hunderterstelle (100)" },
   { val: 200, sym: "σ´", name: "Sigma", type: "Hunderterstelle (200)" },
   { val: 300, sym: "τ´", name: "Tau", type: "Hunderterstelle (300)" },
@@ -765,7 +757,6 @@ const GREEK_NUMS_SPEC = [
   { val: 700, sym: "ψ´", name: "Psi", type: "Hunderterstelle (700)" },
   { val: 800, sym: "ω´", name: "Omega", type: "Hunderterstelle (800)" },
   { val: 900, sym: "ϡ´", name: "Sampi", type: "Hunderterstelle (900)" },
-  // Tausender (1.000 - 9.000)
   { val: 1000, sym: ",α", name: "Aristeri Keraia Alpha", type: "Tausenderstelle (1.000)" },
   { val: 2000, sym: ",β", name: "Aristeri Keraia Beta", type: "Tausenderstelle (2.000)" },
   { val: 3000, sym: ",γ", name: "Aristeri Keraia Gamma", type: "Tausenderstelle (3.000)" },
@@ -775,7 +766,6 @@ const GREEK_NUMS_SPEC = [
   { val: 7000, sym: ",ζ", name: "Aristeri Keraia Zeta", type: "Tausenderstelle (7.000)" },
   { val: 8000, sym: ",η", name: "Aristeri Keraia Eta", type: "Tausenderstelle (8.000)" },
   { val: 9000, sym: ",θ", name: "Aristeri Keraia Theta", type: "Tausenderstelle (9.000)" },
-  // Myriade & Zeichen
   { val: 10000, sym: "Μ", name: "Myrias", type: "Myriade (Faktor × 10.000)" },
   { val: 0, sym: "´", name: "Dexia Keraia", type: "Zahlzeichen-Akzent" },
   { val: 0, sym: ",", name: "Aristeri Keraia", type: "Tausender-Präfix" }
@@ -783,92 +773,140 @@ const GREEK_NUMS_SPEC = [
 
 // 2. DEUTSCHE KANZLEISCHRIFT SPEZIFIKATION
 const DEUTSCH_SPEC = [
-  // A
   { de: "A", maj: "A", min: "a", group: "A-E", desc: "Vokal A" },
-  { de: "AA", maj: "Ā", min: "ā", group: "A-E", desc: "Doppel-AA mit Makron" },
+  { de: "AH", maj: "A’", min: "a’", group: "A-E", desc: "Dehnungs-AH" },
   { de: "AU", maj: "Á", min: "á", group: "A-E", desc: "Diphthong AU" },
-  // Ä
-  { de: "Ä", maj: "Aͤ", min: "aͤ", group: "A-E", desc: "Umlaut Ä (mit kleinem e)" },
+  { de: "Ä", maj: "Aͤ", min: "aͤ", group: "A-E", desc: "Umlaut Ä" },
+  { de: "ÄH", maj: "Aͤ’", min: "aͤ’", group: "A-E", desc: "Dehnungs-ÄH" },
   { de: "ÄU", maj: "Aͤ́", min: "aͤ́", group: "A-E", desc: "Diphthong ÄU" },
-  // B
   { de: "B", maj: "B", min: "b", group: "A-E", desc: "Konsonant B" },
-  // C
   { de: "C", maj: "C", min: "c", group: "A-E", desc: "Konsonant C" },
   { de: "CH", maj: "Ç", min: "ç", group: "A-E", desc: "CH-Laut (C-Cedille)" },
   { de: "CK", maj: "Č", min: "č", group: "A-E", desc: "CK-Laut (C mit Hatschek)" },
-  // D
   { de: "D", maj: "D", min: "d", group: "A-E", desc: "Konsonant D" },
-  // E
   { de: "E", maj: "E", min: "e", group: "A-E", desc: "Vokal E" },
-  { de: "EE", maj: "Ē", min: "ē", group: "A-E", desc: "Doppel-EE mit Makron" },
+  { de: "EH", maj: "E’", min: "e’", group: "A-E", desc: "Dehnungs-EH" },
   { de: "EI", maj: "’EY", min: "’ey", group: "A-E", desc: "Diphthong EI" },
   { de: "EU", maj: "É", min: "é", group: "A-E", desc: "Diphthong EU" },
-  // F
-  { de: "F", maj: "Ṽ", min: "ṽ", group: "F-L", desc: "Konsonant F (V mit Tilde)" },
-  // G
-  { de: "G", maj: "Ć", min: "ć", group: "F-L", desc: "Konsonant G (C mit Akut)" },
-  // H
-  { de: "H", maj: "H", min: "h", group: "F-L", desc: "Konsonant H" },
-  // I
+  { de: "F", maj: "Ṽ", min: "ṽ", group: "F-L", desc: "Konsonant F" },
+  { de: "G", maj: "Ć", min: "ć", group: "F-L", desc: "Konsonant G" },
+  { de: "H", maj: "H", min: "h", group: "F-L", desc: "Konsonant H (im Anlaut)" },
+  { de: "HD", maj: "’D", min: "’d", group: "F-L", desc: "H vor D im Inlaut" },
+  { de: "HE", maj: "’E", min: "’e", group: "F-L", desc: "Intervokalisches HE" },
+  { de: "HL", maj: "’L", min: "’l", group: "F-L", desc: "H vor L im Inlaut" },
+  { de: "HM", maj: "’Ń", min: "’ń", group: "F-L", desc: "H vor M im Inlaut" },
+  { de: "HN", maj: "’N̄", min: "’n̄", group: "F-L", desc: "H vor N im Inlaut" },
+  { de: "HR", maj: "’R", min: "’r", group: "F-L", desc: "H vor R im Inlaut" },
+  { de: "HS", maj: "’S", min: "’ſ", endMin: "’s", group: "F-L", desc: "H vor S (am Wortende ’s)" },
+  { de: "HST", maj: "’Ↄ", min: "’ↄ", group: "F-L", desc: "HST-Kombination" },
+  { de: "HT", maj: "’Đ", min: "’đ", group: "F-L", desc: "H vor T im Inlaut" },
   { de: "I", maj: "I", min: "i", group: "F-L", desc: "Vokal I" },
   { de: "IE", maj: "Ī", min: "ī", group: "F-L", desc: "Langes IE mit Makron" },
-  // J
   { de: "J", maj: "Í", min: "í", group: "F-L", desc: "Konsonant J" },
-  // K
-  { de: "K", maj: "Ĉ", min: "ĉ", group: "F-L", desc: "Konsonant K (C mit Zirkumflex)" },
-  // L
+  { de: "K", maj: "Ĉ", min: "ĉ", group: "F-L", desc: "Konsonant K" },
   { de: "L", maj: "L", min: "l", group: "F-L", desc: "Konsonant L" },
-  { de: "LL", maj: "L̄", min: "l̄", group: "F-L", desc: "Doppel-LL (mit Makron)" },
-  // M
   { de: "M", maj: "Ń", min: "ń", group: "M-R", desc: "Konsonant M" },
-  { de: "MM", maj: "Ñ", min: "ñ", group: "M-R", desc: "Doppel-MM" },
-  // N
   { de: "N", maj: "N", min: "n", group: "M-R", desc: "Konsonant N" },
-  { de: "NN", maj: "N̄", min: "n̄", group: "M-R", desc: "Doppel-NN (mit Makron)" },
   { de: "NG", maj: "Ŋ", min: "ŋ", group: "M-R", desc: "NG-Laut (Eng)" },
-  // O
   { de: "O", maj: "O", min: "o", group: "M-R", desc: "Vokal O" },
-  { de: "OO", maj: "Ō", min: "ō", group: "M-R", desc: "Doppel-OO mit Makron" },
-  // Ö
-  { de: "Ö", maj: "Oͤ", min: "oͤ", group: "M-R", desc: "Umlaut Ö (mit kleinem e)" },
-  // P
+  { de: "OH", maj: "O’", min: "o’", group: "M-R", desc: "Dehnungs-OH" },
+  { de: "Ö", maj: "Oͤ", min: "oͤ", group: "M-R", desc: "Umlaut Ö" },
+  { de: "ÖH", maj: "Oͤ’", min: "oͤ’", group: "M-R", desc: "Dehnungs-ÖH" },
   { de: "P", maj: "Ƀ", min: "ƀ", group: "M-R", desc: "Konsonant P" },
   { de: "PF", maj: "Ƀ’", min: "ƀ’", group: "M-R", desc: "PF-Laut" },
   { de: "PH", maj: "Ṽ’", min: "ṽ’", group: "M-R", desc: "PH-Laut" },
-  // Q
-  { de: "Q / QU", maj: "C̆", min: "c̆", group: "M-R", desc: "Q / QU (C mit Breve)" },
-  // R
+  { de: "QU", maj: "C̆", min: "c̆", group: "M-R", desc: "QU (C mit Breve)" },
   { de: "R", maj: "R", min: "r", group: "M-R", desc: "Konsonant R" },
-  // S
-  { de: "S (Schaft-s / Lang)", maj: "S", min: "ſ", group: "S-Z", desc: "Silbenanlaut & Inlaut vor Vokal" },
-  { de: "S (Schluss-s / Rund)", maj: "S", min: "s", group: "S-Z", desc: "Wortende, Silbenende & Morphemfuge" },
+  { de: "S (Schaft-s / Lang)", maj: "S", min: "ſ", group: "S-Z", desc: "Silbenanlaut & Inlaut vor Vokal oder k" },
+  { de: "S (Schluss-s / Rund)", maj: "S", min: "s", group: "S-Z", desc: "Wortende, Silbenende & Morphemfugen" },
   { de: "SCH", maj: "Š", min: "š", group: "S-Z", desc: "SCH-Laut" },
   { de: "SP", maj: "Ś", min: "ś", group: "S-Z", desc: "SP-Laut" },
-  { de: "SS", maj: "S̄", min: "s̄", group: "S-Z", desc: "Doppel-SS nach kurzem Vokal" },
   { de: "ST", maj: "Ↄ", min: "ↄ", group: "S-Z", desc: "ST-Laut (Claudian C)" },
-  // ẞ
-  { de: "ẞ / ß", maj: "S̄", min: "ß", group: "S-Z", desc: "Eszett nach langem Vokal / Diphthong" },
-  // T
+  { de: "ẞ / ß", maj: "ẞ", min: "ß", group: "S-Z", desc: "Eszett nach langem Vokal oder Diphthong" },
   { de: "T", maj: "Đ", min: "đ", group: "S-Z", desc: "Konsonant T" },
   { de: "TZ", maj: "Đ’", min: "đ’", group: "S-Z", desc: "TZ-Laut" },
-  // U
-  { de: "U", maj: "V̅", min: "v̅", group: "S-Z", desc: "Vokal U (V mit Makron)" },
-  // Ü
-  { de: "Ü", maj: "Vͤ", min: "vͤ", group: "S-Z", desc: "Umlaut Ü (V mit kleinem e)" },
-  // V
+  { de: "U", maj: "V̆", min: "v̆", group: "S-Z", desc: "Vokal U (V mit Breve)" },
+  { de: "UH", maj: "V̆’", min: "v̆’", group: "S-Z", desc: "Dehnungs-UH" },
+  { de: "Ü", maj: "Vͤ", min: "vͤ", group: "S-Z", desc: "Umlaut Ü" },
+  { de: "ÜH", maj: "Vͤ’", min: "vͤ’", group: "S-Z", desc: "Dehnungs-ÜH" },
   { de: "V", maj: "V", min: "v", group: "S-Z", desc: "Konsonant V" },
-  // W
   { de: "W", maj: "VV", min: "vv", group: "S-Z", desc: "Konsonant W (Doppel-V)" },
-  // X
   { de: "X", maj: "’ĈS", min: "’ĉs", group: "S-Z", desc: "Konsonant X" },
-  // Y
   { de: "Y", maj: "Ì", min: "ì", group: "S-Z", desc: "Konsonant/Vokal Y" },
-  // Z
   { de: "Z", maj: "Ď", min: "ď", group: "S-Z", desc: "Affrikate Z" },
-  // Abbreviaturen & Satzzeichen
-  { de: "Virgel (Komma)", maj: "⁄", min: "⁄", group: "abbr", desc: "Virgel statt Komma (⁄)" },
-  { de: "-en (Abbreviatur)", maj: "◌̨", min: "◌̨", group: "abbr", desc: "Häkchen/Ogonek vor -en" },
-  { de: "-er (Abbreviatur)", maj: "◌͛", min: "◌͛", group: "abbr", desc: "Hochgestelltes Kanzlei-r vor -er" }
+  // Abbreviaturen, Gemination & Satzzeichen (Einheitlich, keine Unterscheidung von Groß/Klein)
+  { de: "Geminations-Makron", maj: "◌̄", min: "◌̄", group: "abbr", desc: "Überstrich zur Verdopplung von Lauten (U+0304)" },
+  { de: ", (Virgel)", maj: "⁄", min: "⁄", group: "abbr", desc: "Virgel statt Komma (⁄)" },
+  { de: "-de", maj: "◌ͩ", min: "◌ͩ", group: "abbr", desc: "Kanzlei-d als End-/Silbenkürzung" },
+  { de: "-en", maj: "◌̨", min: "◌̨", group: "abbr", desc: "Kürzungs-Ogonek an Endkonsonanten" },
+  { de: "-er", maj: "◌͛", min: "◌͛", group: "abbr", desc: "Hochgestelltes Kanzlei-r als Endkürzung" },
+  { de: "-in", maj: "◌ͥ", min: "◌ͥ", group: "abbr", desc: "Übergesetztes Kanzlei-i als Suffixkürzung" },
+  { de: "-te", maj: "◌ͭ", min: "◌ͭ", group: "abbr", desc: "Übergesetztes Kanzlei-t als Endkürzung" },
+  { de: "un-", maj: "◌ͧ", min: "◌ͧ", group: "abbr", desc: "Übergesetztes Kanzlei-u als Negationspräfix" }
+];
+
+// 3. WETZEL'SCHE REDUKTIONSSCHRIFT SPEZIFIKATION
+const WETZEL_SPEC = [
+  { de: "A", maj: "A", min: "a", group: "A-E", desc: "Vokal A" },
+  { de: "Ä", maj: "Ä", min: "ä", group: "A-E", desc: "Umlaut Ä" },
+  { de: "B", maj: "B", min: "b", group: "A-E", desc: "Konsonant B" },
+  { de: "C", maj: "C", min: "c", group: "A-E", desc: "Konsonant C" },
+  { de: "D", maj: "D", min: "d", group: "A-E", desc: "Konsonant D" },
+  { de: "E", maj: "E", min: "e", group: "A-E", desc: "Vokal E" },
+  { de: "F", maj: "V́", min: "v́", group: "F-L", desc: "Konsonant F ➔ V́ / v́" },
+  { de: "G", maj: "Ć", min: "ć", group: "F-L", desc: "Konsonant G ➔ Ć / ć" },
+  { de: "H", maj: "’", min: "’", group: "F-L", desc: "Hauchlaut H ➔ ’" },
+  { de: "I", maj: "I", min: "i", group: "F-L", desc: "Vokal I" },
+  { de: "J", maj: "Í", min: "í", group: "F-L", desc: "Konsonant J ➔ Í / í" },
+  { de: "K", maj: "C̀", min: "c̀", group: "F-L", desc: "Konsonant K ➔ C̀ / c̀" },
+  { de: "L", maj: "Į", min: "į", group: "F-L", desc: "Konsonant L ➔ Į / į" },
+  { de: "M", maj: "Ń", min: "ń", group: "M-R", desc: "Konsonant M ➔ Ń / ń" },
+  { de: "N", maj: "N", min: "n", group: "M-R", desc: "Konsonant N" },
+  { de: "O", maj: "O", min: "o", group: "M-R", desc: "Vokal O" },
+  { de: "Ö", maj: "Ö", min: "ö", group: "M-R", desc: "Umlaut Ö" },
+  { de: "P", maj: "B́", min: "b́", group: "M-R", desc: "Konsonant P ➔ B́ / b́" },
+  { de: "QU", maj: "C̆", min: "c̆", group: "M-R", desc: "QU ➔ C̆ / c̆" },
+  { de: "R", maj: "R", min: "r", group: "M-R", desc: "Konsonant R" },
+  { de: "S", maj: "Ç", min: "ç", group: "S-Z", desc: "Konsonant S ➔ Ç / ç" },
+  { de: "ẞ / ß", maj: "ẞ", min: "ß", group: "S-Z", desc: "Eszett (ẞ / ß)" },
+  { de: "T", maj: "D́", min: "d́", group: "S-Z", desc: "Konsonant T ➔ D́ / d́" },
+  { de: "U", maj: "V̆", min: "v̆", group: "S-Z", desc: "Vokal U ➔ V̆ / v̆" },
+  { de: "Ü", maj: "Ü", min: "ü", group: "S-Z", desc: "Umlaut Ü" },
+  { de: "V", maj: "V", min: "v", group: "S-Z", desc: "Konsonant V" },
+  { de: "W", maj: "V̀", min: "v̀", group: "S-Z", desc: "Konsonant W ➔ V̀ / v̀" },
+  { de: "X", maj: "Ĉ", min: "ĉ", group: "S-Z", desc: "Konsonant X ➔ Ĉ / ĉ" },
+  { de: "Y", maj: "Ì", min: "ì", group: "S-Z", desc: "Konsonant/Vokal Y ➔ Ì / ì" },
+  { de: "Z", maj: "D̀", min: "d̀", group: "S-Z", desc: "Konsonant Z ➔ D̀ / d̀" }
+];
+
+// RÖMISCHE ZAHLZEICHEN MIT VINCULUM
+const ROMAN_VINCULUM_SPEC = [
+  { val: 1000000, sym: "M̅", name: "1.000.000 (M mit Vinculum)" },
+  { val: 900000, sym: "C̅M̅", name: "900.000" },
+  { val: 500000, sym: "D̅", name: "500.000 (D mit Vinculum)" },
+  { val: 400000, sym: "C̅D̅", name: "400.000" },
+  { val: 100000, sym: "C̅", name: "100.000 (C mit Vinculum)" },
+  { val: 90000, sym: "X̅C̅", name: "90.000" },
+  { val: 50000, sym: "L̅", name: "50.000 (L mit Vinculum)" },
+  { val: 40000, sym: "X̅L̅", name: "40.000" },
+  { val: 10000, sym: "X̅", name: "10.000 (X mit Vinculum)" },
+  { val: 9000, sym: "MX̅", name: "9.000" },
+  { val: 5000, sym: "V̅", name: "5.000 (V mit Vinculum)" },
+  { val: 4000, sym: "MV̅", name: "4.000" },
+  { val: 1000, sym: "M", name: "1.000" },
+  { val: 900, sym: "CM", name: "900" },
+  { val: 500, sym: "D", name: "500" },
+  { val: 400, sym: "CD", name: "400" },
+  { val: 100, sym: "C", name: "100" },
+  { val: 90, sym: "XC", name: "90" },
+  { val: 50, sym: "L", name: "50" },
+  { val: 40, sym: "XL", name: "40" },
+  { val: 10, sym: "X", name: "10" },
+  { val: 9, sym: "IX", name: "9" },
+  { val: 5, sym: "V", name: "5" },
+  { val: 4, sym: "IV", name: "4" },
+  { val: 1, sym: "I", name: "1" },
+  { val: 0, sym: "◌̄", name: "Vinculum (× 1.000 Multiplikator)" }
 ];
 
 /**
@@ -879,7 +917,7 @@ const DEUTSCH_SPEC = [
 let currentScript = "dionysos";
 let currentMode = "de-to-kanzlei";
 
-// DOM Elements
+// DOM-Elemente
 const inputEl = document.getElementById("inputText");
 const outputEl = document.getElementById("outputText");
 const sourceTitle = document.getElementById("sourceTitle");
@@ -893,10 +931,15 @@ const numberRuleHint = document.getElementById("numberRuleHint");
 
 const dionysosOptions = document.getElementById("dionysosOptions");
 const deutschOptions = document.getElementById("deutschOptions");
+const wetzelOptions = document.getElementById("wetzelOptions");
 const eRuleSelect = document.getElementById("eRuleSelect");
 
 const abbrEnCheck = document.getElementById("abbrEnCheck");
 const abbrErCheck = document.getElementById("abbrErCheck");
+const abbrDeCheck = document.getElementById("abbrDeCheck");
+const abbrTeCheck = document.getElementById("abbrTeCheck");
+const abbrInCheck = document.getElementById("abbrInCheck");
+const abbrUnCheck = document.getElementById("abbrUnCheck");
 const virgelCheck = document.getElementById("virgelCheck");
 
 inputEl.addEventListener("input", runConversion);
@@ -911,14 +954,18 @@ function runConversion() {
   if (currentMode === "de-to-kanzlei") {
     if (currentScript === "dionysos") {
       outputEl.value = convertDeToDionysos(text);
-    } else {
+    } else if (currentScript === "deutsch") {
       outputEl.value = convertDeToDeutscheKanzlei(text);
+    } else {
+      outputEl.value = convertDeToWetzel(text);
     }
   } else {
     if (currentScript === "dionysos") {
       outputEl.value = convertDionysosToDe(text);
-    } else {
+    } else if (currentScript === "deutsch") {
       outputEl.value = convertDeutscheKanzleiToDe(text);
+    } else {
+      outputEl.value = convertWetzelToDe(text);
     }
   }
 
@@ -933,7 +980,7 @@ function runConversion() {
 function convertDeToDionysos(text) {
   if (!text) return "";
 
-  // Schritt 1: Zahlen (1 bis 99.999.999 ➔ Griechisch; Kommazahlen, Negativ, 0 & >=100 Mio ➔ Arabisch-Indisch)
+  // Zahlen: 1 bis 99.999.999 ➔ Griechisch; Negativ, Komma, 0, >=100.000.000 ➔ Arabisch-Indisch
   let processed = text.replace(/(?<![\w.])-?\d{1,3}(?:\.\d{3})*(?:,\d+)?(?![\w])|-?\d+(?:,\d+)?/g, (match) => {
     if (match.includes(',')) {
       return toArabicIndicDigits(match);
@@ -945,11 +992,8 @@ function convertDeToDionysos(text) {
     return arabicToGreekNumber(rawNum);
   });
 
-  // Schritt 2: Wörter in Kanzleischrift (inklusive großem Eszett ẞ)
   return processed.replace(/([a-zA-ZäöüÄÖÜßẞ]+|[^a-zA-ZäöüÄÖÜßẞ]+)/gu, (segment) => {
-    if (!/^[a-zA-ZäöüÄÖÜßẞ]+$/u.test(segment)) {
-      return segment;
-    }
+    if (!/^[a-zA-ZäöüÄÖÜßẞ]+$/u.test(segment)) return segment;
     return convertDionysosWord(segment);
   });
 }
@@ -970,7 +1014,7 @@ function convertDionysosWord(word) {
       return m && m.index === 0 ? m[0] : null;
     };
 
-    // 1. Intervokalisches HE (ausgenommen Suffix -heit)
+    // Intervokalisches HE (außer Suffix -heit)
     if (i > 0 && i + 1 < len && !/^heit/i.test(remaining)) {
       const prev = word[i - 1].toLowerCase();
       const curr = word[i].toLowerCase();
@@ -983,7 +1027,7 @@ function convertDionysosWord(word) {
       }
     }
 
-    // 2. HST
+    // HST
     let m = matchCluster(/^hst/i);
     if (m) {
       res += preserveCase(m, "’Ↄ", "’ↄ");
@@ -991,7 +1035,7 @@ function convertDionysosWord(word) {
       continue;
     }
 
-    // HS (Auslaut vs Inlaut)
+    // HS (Inlaut vs Wortende)
     m = matchCluster(/^hs/i);
     if (m) {
       if (isAtWordEnd(i, 2)) {
@@ -1003,7 +1047,7 @@ function convertDionysosWord(word) {
       continue;
     }
 
-    // HD, HL, HM, HN, HR, HT
+    // H vor Konsonant im Inlaut
     const hDigraphs = [
       { pattern: /^hd/i, maj: "’Δ", min: "’δ" },
       { pattern: /^hl/i, maj: "’Λ", min: "’λ" },
@@ -1024,46 +1068,43 @@ function convertDionysosWord(word) {
     }
     if (matchedH) continue;
 
-    // 3. Dehnungs-H am Wortende (inkl. ÖH)
-    if (isAtWordEnd(i, 2) || isAtWordEnd(i, 3)) {
-      const endHPatterns = [
-        { pattern: /^äh/i, maj: "Αͤ’", min: "αͤ’" },
-        { pattern: /^öh/i, maj: "Oͤ’", min: "oͤ’" },
-        { pattern: /^üh/i, maj: "Vͤ’", min: "vͤ’" },
-        { pattern: /^ah/i, maj: "Α’", min: "α’" },
-        { pattern: /^eh/i, maj: "Η’", min: "η’" },
-        { pattern: /^oh/i, maj: "Ο’", min: "ο’" },
-        { pattern: /^uh/i, maj: "V̅’", min: "v̅’" }
-      ];
-      let matchedEndH = false;
-      for (const eh of endHPatterns) {
-        m = matchCluster(eh.pattern);
-        if (m && isAtWordEnd(i, m.length)) {
-          res += preserveCase(m, eh.maj, eh.min);
-          i += m.length;
-          matchedEndH = true;
-          break;
-        }
+    // Dehnungs-H
+    const endHPatterns = [
+      { pattern: /^äh/i, maj: "Αͤ’", min: "αͤ’" },
+      { pattern: /^öh/i, maj: "Oͤ’", min: "oͤ’" },
+      { pattern: /^üh/i, maj: "Vͤ’", min: "vͤ’" },
+      { pattern: /^ah/i, maj: "Α’", min: "α’" },
+      { pattern: /^eh/i, maj: "Η’", min: "η’" },
+      { pattern: /^oh/i, maj: "Ο’", min: "ο’" },
+      { pattern: /^uh/i, maj: "V̅’", min: "v̅’" }
+    ];
+    let matchedEndH = false;
+    for (const eh of endHPatterns) {
+      m = matchCluster(eh.pattern);
+      if (m) {
+        res += preserveCase(m, eh.maj, eh.min);
+        i += m.length;
+        matchedEndH = true;
+        break;
       }
-      if (matchedEndH) continue;
     }
+    if (matchedEndH) continue;
 
-    // 4. SCH
+    // SCH
     m = matchCluster(/^sch/i);
     if (m) {
-      res += preserveCase(m, "Š", "š");
+      res += preserveCase(m, "Σ̌", "σ̌");
       i += 3;
       continue;
     }
 
-    // CH (Ach- vs. Ich-Laut: Phonetisch exakt unterschieden!)
+    // CH (Ach- vs Ich-Laut)
     m = matchCluster(/^ch/i);
     if (m) {
       let isAch = false;
       if (i > 0) {
         const prev1 = word[i - 1].toLowerCase();
         const prev2 = i > 1 ? word.slice(i - 2, i).toLowerCase() : "";
-        // Nach eu und äu ist es zwingend ein Ich-Laut (/ç/), trotz 'u' am Ende des Diphthongs!
         if (prev2 === "eu" || prev2 === "äu") {
           isAch = false;
         } else if (prev2 === "au" || prev1 === "a" || prev1 === "o" || prev1 === "u") {
@@ -1075,11 +1116,11 @@ function convertDionysosWord(word) {
       continue;
     }
 
-    // Mehrfachkonsonanten & Ligaturen (inkl. QU)
+    // Mehrfachkonsonanten & Diphthonge
     const digraphs = [
       { pattern: /^ck/i, maj: "Č", min: "č" },
       { pattern: /^tz/i, maj: "Đ’", min: "đ’" },
-      { pattern: /^sp/i, maj: "Ś", min: "ś" },
+      { pattern: /^sp/i, maj: "Σ́", min: "σ́" },
       { pattern: /^st/i, maj: "Ↄ", min: "ↄ" },
       { pattern: /^ss/i, maj: "Ϻ", min: "ϻ" },
       { pattern: /^pf/i, maj: "Ƀ’", min: "ƀ’" },
@@ -1091,7 +1132,16 @@ function convertDionysosWord(word) {
       { pattern: /^nd/i, maj: "D̴", min: "ᵭ" },
       { pattern: /^ll/i, maj: "Λ̄", min: "λ̄" },
       { pattern: /^mm/i, maj: "Μ̄", min: "μ̄" },
-      { pattern: /^nn/i, maj: "Ν̄", min: "ν̄" }
+      { pattern: /^nn/i, maj: "Ν̄", min: "ν̄" },
+      { pattern: /^äu/i, maj: "Αͤ́", min: "αͤ́" },
+      { pattern: /^aa/i, maj: "Ā", min: "ā" },
+      { pattern: /^ee/i, maj: "Η̄", min: "η̄" },
+      { pattern: /^oo/i, maj: "Ω", min: "ω" },
+      { pattern: /^ai/i, maj: "ΑΙ", min: "αι" },
+      { pattern: /^au/i, maj: "Ά", min: "ά" },
+      { pattern: /^ei/i, maj: "EY", min: "ey" },
+      { pattern: /^eu/i, maj: "Ή", min: "ή" },
+      { pattern: /^ie/i, maj: "Ī", min: "ī" }
     ];
     let matchedDg = false;
     for (const dg of digraphs) {
@@ -1105,45 +1155,18 @@ function convertDionysosWord(word) {
     }
     if (matchedDg) continue;
 
-    // 5. Diphthonge & Verdopplungen
-    const diphs = [
-      { pattern: /^äu/i, maj: "Αͤ́", min: "αͤ́" },
-      { pattern: /^aa/i, maj: "Ā", min: "ā" },
-      { pattern: /^ee/i, maj: "Ē", min: "ē" },
-      { pattern: /^oo/i, maj: "Ω", min: "ω" },
-      { pattern: /^ai/i, maj: "ΑΙ", min: "αι" },
-      { pattern: /^au/i, maj: "Ά", min: "ά" },
-      { pattern: /^ei/i, maj: "EY", min: "ey" },
-      { pattern: /^eu/i, maj: "É", min: "é" },
-      { pattern: /^ie/i, maj: "Ī", min: "ī" }
-    ];
-    let matchedDp = false;
-    for (const dp of diphs) {
-      m = matchCluster(dp.pattern);
-      if (m) {
-        res += preserveCase(m, dp.maj, dp.min);
-        i += m.length;
-        matchedDp = true;
-        break;
-      }
-    }
-    if (matchedDp) continue;
-
-    // 6. Einzelbuchstaben
+    // S-Regel
     const ch = word[i];
     const lowCh = ch.toLowerCase();
-    // Exakte Großschreibungs-Erkennung inklusive des großen Eszetts ẞ
     const isUpper = (ch === "ẞ" || (ch !== "ß" && ch === ch.toUpperCase()));
 
-    // S-Laut
     if (lowCh === 's') {
       if (isAtWordEnd(i, 1)) {
         res += isUpper ? "Σ" : "ς";
       } else {
         const nextChar = (i + 1 < len) ? word[i + 1].toLowerCase() : "";
-        const prevChar = i > 0 ? word[i - 1].toLowerCase() : "";
         const nextIsVowel = /[aeiouäöü]/.test(nextChar);
-        if (nextIsVowel && (isAtWordStart(i) || /[aeiouäöüllrrnmm]/.test(prevChar))) {
+        if (nextIsVowel && isAtWordStart(i)) {
           res += isUpper ? "Ζ" : "ζ";
         } else {
           res += isUpper ? "Σ" : "σ";
@@ -1153,66 +1176,38 @@ function convertDionysosWord(word) {
       continue;
     }
 
-    // E-Laut (Heuristik optimiert für Dehnungs-H im Inlaut wie "geht", "sehr")
+    // E-Regel
     if (lowCh === 'e') {
       let isLong = false;
-      if (eSetting === "long") {
-        isLong = true;
-      } else if (eSetting === "short") {
-        isLong = false;
-      } else {
+      if (eSetting === "long") isLong = true;
+      else if (eSetting === "short") isLong = false;
+      else {
         const restWord = word.slice(i + 1).toLowerCase();
-        // Dehnungs-H im Inlaut erzwingt langes E (z.B. geht, weht, sehr, Lehm)
-        if (/^h[dlmnrst]/.test(restWord)) {
-          isLong = true;
-        } else if (isAtWordEnd(i, 1) || /^(n|r|l|m|s|st|t)$/.test(restWord) || /^[bcdfghjklmnpqrstvwxyz]{2,}/.test(restWord)) {
-          isLong = false;
-        } else {
-          isLong = true;
-        }
+        if (/^h[dlmnrst]/.test(restWord)) isLong = true;
+        else if (isAtWordEnd(i, 1) || /^(n|r|l|m|s|st|t)$/.test(restWord) || /^[bcdfghjklmnpqrstvwxyz]{2,}/.test(restWord)) isLong = false;
+        else isLong = true;
       }
       res += isLong ? (isUpper ? "Η" : "η") : (isUpper ? "Ε" : "ε");
       i++;
       continue;
     }
 
-    // Grundbuchstaben (Vollständig inkl. Q und Eszett)
+    // Einzelbuchstaben-Tabelle
     const singleMap = {
-      'a': { maj: "Α", min: "α" },
-      'ä': { maj: "Αͤ", min: "αͤ" },
-      'b': { maj: "Β", min: "β" },
-      'c': { maj: "C", min: "c" },
-      'd': { maj: "Δ", min: "δ" },
-      'f': { maj: "Ṽ", min: "ṽ" },
-      'g': { maj: "Ć", min: "ć" },
-      'h': { maj: "Ͱ", min: "ͱ" },
-      'i': { maj: "Ι", min: "ι" },
-      'j': { maj: "Í", min: "í" },
-      'k': { maj: "Ĉ", min: "ĉ" },
-      'l': { maj: "Λ", min: "λ" },
-      'm': { maj: "Μ", min: "μ" },
-      'n': { maj: "Ν", min: "ν" },
-      'o': { maj: "Ο", min: "ο" },
-      'ö': { maj: "Oͤ", min: "oͤ" },
-      'p': { maj: "Ƀ", min: "ƀ" },
-      'q': { maj: "Ϙ", min: "ϙ" },
-      'r': { maj: "Ρ", min: "ρ" },
-      'ß': { maj: "Ϡ", min: "ϡ" },
-      't': { maj: "Đ", min: "đ" },
-      'u': { maj: "V̅", min: "v̅" },
-      'ü': { maj: "Vͤ", min: "vͤ" },
-      'v': { maj: "V", min: "v" },
-      'w': { maj: "Ϝ", min: "ϝ" },
-      'x': { maj: "Ȝ", min: "ȝ" },
-      'y': { maj: "Ì", min: "ì" },
+      'a': { maj: "Α", min: "α" }, 'ä': { maj: "Αͤ", min: "αͤ" }, 'b': { maj: "Β", min: "β" },
+      'c': { maj: "C", min: "c" }, 'd': { maj: "Δ", min: "δ" }, 'f': { maj: "Ṽ", min: "ṽ" },
+      'g': { maj: "Ć", min: "ć" }, 'h': { maj: "Ͱ", min: "ͱ" }, 'i': { maj: "Ι", min: "ι" },
+      'j': { maj: "Í", min: "í" }, 'k': { maj: "Ĉ", min: "ĉ" }, 'l': { maj: "Λ", min: "λ" },
+      'm': { maj: "Μ", min: "μ" }, 'n': { maj: "Ν", min: "ν" }, 'o': { maj: "Ο", min: "ο" },
+      'ö': { maj: "Oͤ", min: "oͤ" }, 'p': { maj: "Ƀ", min: "ƀ" }, 'q': { maj: "Ϙ", min: "ϙ" },
+      'r': { maj: "Ρ", min: "ρ" }, 'ß': { maj: "Ϡ", min: "ϡ" }, 't': { maj: "Đ", min: "đ" },
+      'u': { maj: "V̅", min: "v̅" }, 'ü': { maj: "Vͤ", min: "vͤ" }, 'v': { maj: "V", min: "v" },
+      'w': { maj: "Ϝ", min: "ϝ" }, 'x': { maj: "Ȝ", min: "ȝ" }, 'y': { maj: "Ì", min: "ì" },
       'z': { maj: "Ď", min: "ď" }
     };
 
-    if (singleMap[lowCh]) {
-      res += isUpper ? singleMap[lowCh].maj : singleMap[lowCh].min;
-    } else {
-      res += ch;
-    }
+    if (singleMap[lowCh]) res += isUpper ? singleMap[lowCh].maj : singleMap[lowCh].min;
+    else res += ch;
 
     i++;
   }
@@ -1222,39 +1217,51 @@ function convertDionysosWord(word) {
 
 /**
  * -------------------------------------------------------------
- * 2. DEUTSCHE KANZLEISCHRIFT CONVERTER (INDISCH-ARABISCH 0-9)
+ * 2. DEUTSCHE KANZLEISCHRIFT CONVERTER
  * -------------------------------------------------------------
  */
 function convertDeToDeutscheKanzlei(text) {
   if (!text) return "";
-
   let processed = text;
 
-  // Satzzeichen: Virgel (,) ➔ ⁄
+  // Satzzeichen Virgel
   if (virgelCheck.checked) {
-    processed = processed.replace(/(\d),(\d)|,/g, (m, d1, d2) => d1 && d2 ? `${d1},${d2}` : "⁄");
+    processed = processed.replace(/(\d),(\d)|,/g, (m, d1, d2) => (d1 && d2 ? `${d1},${d2}` : "⁄"));
   }
 
-  // Wortweise Bearbeitung
   return processed.replace(/([a-zA-ZäöüÄÖÜßẞ]+|[^a-zA-ZäöüÄÖÜßẞ]+)/gu, (segment) => {
-    if (!/^[a-zA-ZäöüÄÖÜßẞ]+$/u.test(segment)) {
-      return segment;
-    }
+    if (!/^[a-zA-ZäöüÄÖÜßẞ]+$/u.test(segment)) return segment;
     return convertDeutscheWord(segment);
   });
 }
 
 function convertDeutscheWord(word) {
   let w = word;
-  let endingAbbr = "";
+  let prefix = "";
+  let suffix = "";
 
-  // Abbreviaturen am Wortende (-en ➔ ◌̨, -er ➔ ◌͛)
-  if (abbrEnCheck.checked && /en$/i.test(w) && w.length > 2) {
+  // Präfix-Abbreviatur: un- (◌ͧ)
+  if (abbrUnCheck.checked && /^un/i.test(w) && w.length > 3) {
+    prefix = "\u0367";
+    w = w.slice(2);
+  }
+
+  // Suffix-Abbreviaturen am Wortende
+  if (abbrDeCheck.checked && /de$/i.test(w) && w.length > 2) {
     w = w.slice(0, -2);
-    endingAbbr = "\u0328";
+    suffix = "\u0369";
+  } else if (abbrTeCheck.checked && /te$/i.test(w) && w.length > 2) {
+    w = w.slice(0, -2);
+    suffix = "\u036D";
+  } else if (abbrInCheck.checked && /in$/i.test(w) && w.length > 2) {
+    w = w.slice(0, -2);
+    suffix = "\u0365";
+  } else if (abbrEnCheck.checked && /en$/i.test(w) && w.length > 2) {
+    w = w.slice(0, -2);
+    suffix = "\u0328";
   } else if (abbrErCheck.checked && /er$/i.test(w) && w.length > 2) {
     w = w.slice(0, -2);
-    endingAbbr = "\u035B";
+    suffix = "\u035B";
   }
 
   let res = "";
@@ -1270,158 +1277,136 @@ function convertDeutscheWord(word) {
       return m && m.index === 0 ? m[0] : null;
     };
 
-    // 1. SCH, SP, ST, SS
-    let m = matchCluster(/^sch/i);
+    // Geminationsregel: Jeder Buchstabe doppelt erhält Makron über Grundzeichen
+    if (i + 1 < len && w[i].toLowerCase() === w[i + 1].toLowerCase() && /[a-zäöü]/i.test(w[i])) {
+      const charLower = w[i].toLowerCase();
+      // Spezifische Handhabung von Doppel-SS nach kurzem Vokal vs ß
+      if (charLower === 's') {
+        const isU = w[i] === w[i].toUpperCase();
+        res += isU ? "S̄" : "s̄";
+        i += 2;
+        continue;
+      }
+      // Generelle Gemination
+      const baseTrans = convertSingleDeutsche(w[i]);
+      res += baseTrans + "\u0304";
+      i += 2;
+      continue;
+    }
+
+    // Intervokalisches HE
+    if (i > 0 && i + 1 < len && !/^heit/i.test(remaining)) {
+      const prev = w[i - 1].toLowerCase();
+      const curr = w[i].toLowerCase();
+      const next = w[i + 1].toLowerCase();
+      if (curr === 'h' && next === 'e' && /[aeiouäöü]/.test(prev)) {
+        res += (w[i] === w[i].toUpperCase()) ? "’E" : "’e";
+        i += 2;
+        continue;
+      }
+    }
+
+    // HST & HS
+    let m = matchCluster(/^hst/i);
     if (m) {
-      res += preserveCase(m, "Š", "š");
+      res += preserveCase(m, "’Ↄ", "’ↄ");
       i += 3;
       continue;
     }
-
-    m = matchCluster(/^sp/i);
+    m = matchCluster(/^hs/i);
     if (m) {
-      res += preserveCase(m, "Ś", "ś");
+      if (isAtWordEnd(i, 2) && !suffix) {
+        res += (m[0] === m[0].toUpperCase()) ? "’S" : "’s";
+      } else {
+        res += (m[0] === m[0].toUpperCase()) ? "’S" : "’ſ";
+      }
       i += 2;
       continue;
     }
 
-    m = matchCluster(/^st/i);
-    if (m) {
-      res += preserveCase(m, "Ↄ", "ↄ");
-      i += 2;
-      continue;
+    // Inlaut-H-Verbindungen
+    const hDigraphs = [
+      { pattern: /^hd/i, maj: "’D", min: "’d" },
+      { pattern: /^hl/i, maj: "’L", min: "’l" },
+      { pattern: /^hm/i, maj: "’Ń", min: "’ń" },
+      { pattern: /^hn/i, maj: "’N̄", min: "’n̄" },
+      { pattern: /^hr/i, maj: "’R", min: "’r" },
+      { pattern: /^ht/i, maj: "’Đ", min: "’đ" }
+    ];
+    let matchedH = false;
+    for (const hd of hDigraphs) {
+      m = matchCluster(hd.pattern);
+      if (m) {
+        res += preserveCase(m, hd.maj, hd.min);
+        i += m.length;
+        matchedH = true;
+        break;
+      }
     }
+    if (matchedH) continue;
 
-    m = matchCluster(/^ss/i);
-    if (m) {
-      res += preserveCase(m, "S̄", "s̄");
-      i += 2;
-      continue;
+    // Dehnungs-H
+    const endHPatterns = [
+      { pattern: /^äh/i, maj: "Aͤ’", min: "aͤ’" },
+      { pattern: /^öh/i, maj: "Oͤ’", min: "oͤ’" },
+      { pattern: /^üh/i, maj: "Vͤ’", min: "vͤ’" },
+      { pattern: /^ah/i, maj: "A’", min: "a’" },
+      { pattern: /^eh/i, maj: "E’", min: "e’" },
+      { pattern: /^oh/i, maj: "O’", min: "o’" },
+      { pattern: /^uh/i, maj: "V̆’", min: "v̆’" }
+    ];
+    let matchedEndH = false;
+    for (const eh of endHPatterns) {
+      m = matchCluster(eh.pattern);
+      if (m) {
+        res += preserveCase(m, eh.maj, eh.min);
+        i += m.length;
+        matchedEndH = true;
+        break;
+      }
     }
+    if (matchedEndH) continue;
 
-    // 2. Diphthonge / Vokaldopplungen
-    m = matchCluster(/^äu/i);
-    if (m) {
-      res += preserveCase(m, "Aͤ́", "aͤ́");
-      i += 2;
-      continue;
+    // Mehrfachkonsonanten & Diphthonge
+    const digraphs = [
+      { pattern: /^sch/i, maj: "Š", min: "š" },
+      { pattern: /^sp/i, maj: "Ś", min: "ś" },
+      { pattern: /^st/i, maj: "Ↄ", min: "ↄ" },
+      { pattern: /^ck/i, maj: "Č", min: "č" },
+      { pattern: /^ch/i, maj: "Ç", min: "ç" },
+      { pattern: /^ng/i, maj: "Ŋ", min: "ŋ" },
+      { pattern: /^pf/i, maj: "Ƀ’", min: "ƀ’" },
+      { pattern: /^ph/i, maj: "Ṽ’", min: "ṽ’" },
+      { pattern: /^qu/i, maj: "C̆", min: "c̆" },
+      { pattern: /^tz/i, maj: "Đ’", min: "đ’" },
+      { pattern: /^äu/i, maj: "Aͤ́", min: "aͤ́" },
+      { pattern: /^au/i, maj: "Á", min: "á" },
+      { pattern: /^ei/i, maj: "’EY", min: "’ey" },
+      { pattern: /^eu/i, maj: "É", min: "é" },
+      { pattern: /^ie/i, maj: "Ī", min: "ī" }
+    ];
+    let matchedDg = false;
+    for (const dg of digraphs) {
+      m = matchCluster(dg.pattern);
+      if (m) {
+        res += preserveCase(m, dg.maj, dg.min);
+        i += m.length;
+        matchedDg = true;
+        break;
+      }
     }
-    m = matchCluster(/^aa/i);
-    if (m) {
-      res += preserveCase(m, "Ā", "ā");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^ee/i);
-    if (m) {
-      res += preserveCase(m, "Ē", "ē");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^oo/i);
-    if (m) {
-      res += preserveCase(m, "Ō", "ō");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^au/i);
-    if (m) {
-      res += preserveCase(m, "Á", "á");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^ei/i);
-    if (m) {
-      res += preserveCase(m, "’EY", "’ey");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^eu/i);
-    if (m) {
-      res += preserveCase(m, "É", "é");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^ie/i);
-    if (m) {
-      res += preserveCase(m, "Ī", "ī");
-      i += 2;
-      continue;
-    }
+    if (matchedDg) continue;
 
-    // 3. Konsonantendopplungen & Cluster
-    m = matchCluster(/^ck/i);
-    if (m) {
-      res += preserveCase(m, "Č", "č");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^ch/i);
-    if (m) {
-      res += preserveCase(m, "Ç", "ç");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^ll/i);
-    if (m) {
-      res += preserveCase(m, "L̄", "l̄");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^mm/i);
-    if (m) {
-      res += preserveCase(m, "Ñ", "ñ");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^nn/i);
-    if (m) {
-      res += preserveCase(m, "N̄", "n̄");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^ng/i);
-    if (m) {
-      res += preserveCase(m, "Ŋ", "ŋ");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^pf/i);
-    if (m) {
-      res += preserveCase(m, "Ƀ’", "ƀ’");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^ph/i);
-    if (m) {
-      res += preserveCase(m, "Ṽ’", "ṽ’");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^qu/i);
-    if (m) {
-      res += preserveCase(m, "C̆", "c̆");
-      i += 2;
-      continue;
-    }
-    m = matchCluster(/^tz/i);
-    if (m) {
-      res += preserveCase(m, "Đ’", "đ’");
-      i += 2;
-      continue;
-    }
-
-    // 4. Einzelbuchstaben
+    // S-Regeln: Schaft-s (ſ) vs Rundes s (s)
     const ch = w[i];
     const lowCh = ch.toLowerCase();
     const isUpper = (ch === "ẞ" || (ch !== "ß" && ch === ch.toUpperCase()));
 
-    // S-Regeln: Langes s (ſ) vs. Rundes Schluss-s (s)
     if (lowCh === 's') {
-      if (isAtWordEnd(i, 1) && !endingAbbr) {
+      if (isAtWordEnd(i, 1) && !suffix) {
         res += isUpper ? "S" : "s";
       } else {
-        const nextChar = (i + 1 < len) ? w[i + 1].toLowerCase() : (endingAbbr ? "e" : "");
+        const nextChar = (i + 1 < len) ? w[i + 1].toLowerCase() : (suffix ? "e" : "");
         if (/[aeiouäöü]/.test(nextChar) || nextChar === 'k') {
           res += isUpper ? "S" : "ſ";
         } else {
@@ -1432,81 +1417,125 @@ function convertDeutscheWord(word) {
       continue;
     }
 
-    // Eszett (ß / ẞ)
-    if (ch === 'ß') {
-      res += "ß";
-      i++;
-      continue;
-    }
-    if (ch === 'ẞ') {
-      res += "S̄";
-      i++;
-      continue;
-    }
+    if (ch === 'ß') { res += "ß"; i++; continue; }
+    if (ch === 'ẞ') { res += "ẞ"; i++; continue; }
 
-    // Einzelne deutsche Kanzleibuchstaben
-    const deSingleMap = {
-      'a': { maj: "A", min: "a" },
-      'ä': { maj: "Aͤ", min: "aͤ" },
-      'b': { maj: "B", min: "b" },
-      'c': { maj: "C", min: "c" },
-      'd': { maj: "D", min: "d" },
-      'e': { maj: "E", min: "e" },
-      'f': { maj: "Ṽ", min: "ṽ" },
-      'g': { maj: "Ć", min: "ć" },
-      'h': { maj: "H", min: "h" },
-      'i': { maj: "I", min: "i" },
-      'j': { maj: "Í", min: "í" },
-      'k': { maj: "Ĉ", min: "ĉ" },
-      'l': { maj: "L", min: "l" },
-      'm': { maj: "Ń", min: "ń" },
-      'n': { maj: "N", min: "n" },
-      'o': { maj: "O", min: "o" },
-      'ö': { maj: "Oͤ", min: "oͤ" },
-      'p': { maj: "Ƀ", min: "ƀ" },
-      'q': { maj: "C̆", min: "c̆" },
-      'r': { maj: "R", min: "r" },
-      't': { maj: "Đ", min: "đ" },
-      'u': { maj: "V̅", min: "v̅" },
-      'ü': { maj: "Vͤ", min: "vͤ" },
-      'v': { maj: "V", min: "v" },
-      'w': { maj: "VV", min: "vv" },
-      'x': { maj: "’ĈS", min: "’ĉs" },
-      'y': { maj: "Ì", min: "ì" },
-      'z': { maj: "Ď", min: "ď" }
-    };
-
-    if (deSingleMap[lowCh]) {
-      res += isUpper ? deSingleMap[lowCh].maj : deSingleMap[lowCh].min;
-    } else {
-      res += ch;
-    }
-
+    res += convertSingleDeutsche(ch);
     i++;
   }
 
-  return res + endingAbbr;
+  return (prefix ? prefix : "") + res + (suffix ? suffix : "");
+}
+
+function convertSingleDeutsche(ch) {
+  const lowCh = ch.toLowerCase();
+  const isUpper = (ch === ch.toUpperCase());
+  const map = {
+    'a': "a", 'ä': "aͤ", 'b': "b", 'c': "c", 'd': "d", 'e': "e",
+    'f': "ṽ", 'g': "ć", 'h': "h", 'i': "i", 'j': "í", 'k': "ĉ",
+    'l': "l", 'm': "ń", 'n': "n", 'o': "o", 'ö': "oͤ", 'p': "ƀ",
+    'q': "c̆", 'r': "r", 't': "đ", 'u': "v̆", 'ü': "vͤ", 'v': "v",
+    'w': "vv", 'x': "’ĉs", 'y': "ì", 'z': "ď"
+  };
+  const majMap = {
+    'a': "A", 'ä': "Aͤ", 'b': "B", 'c': "C", 'd': "D", 'e': "E",
+    'f': "Ṽ", 'g': "Ć", 'h': "H", 'i': "I", 'j': "Í", 'k': "Ĉ",
+    'l': "L", 'm': "Ń", 'n': "N", 'o': "O", 'ö': "Oͤ", 'p': "Ƀ",
+    'q': "C̆", 'r': "R", 't': "Đ", 'u': "V̆", 'ü': "Vͤ", 'v': "V",
+    'w': "VV", 'x': "’ĈS", 'y': "Ì", 'z': "Ď"
+  };
+  if (map[lowCh]) return isUpper ? majMap[lowCh] : map[lowCh];
+  return ch;
 }
 
 /**
  * -------------------------------------------------------------
- * RÜCKÜBERSETZUNGEN (KANZLEI ➔ DEUTSCH)
+ * 3. WETZEL'SCHE REDUKTIONSSCHRIFT CONVERTER
+ * -------------------------------------------------------------
+ */
+function convertDeToWetzel(text) {
+  if (!text) return "";
+
+  // Zahlen: Römisch mit Vinculum von 1 bis 3.999.999; ab 4.000.000 Standardziffern
+  let processed = text.replace(/(?<![\w.])-?\d{1,3}(?:\.\d{3})*(?:,\d+)?(?![\w])|-?\d+(?:,\d+)?/g, (match) => {
+    if (match.includes(',') || match.startsWith('-')) return match;
+    const rawNum = parseInt(match.replace(/\./g, ''), 10);
+    if (isNaN(rawNum) || rawNum < 1 || rawNum > 3999999) return match;
+    return arabicToRomanVinculum(rawNum);
+  });
+
+  return processed.replace(/([a-zA-ZäöüÄÖÜßẞ]+|[^a-zA-ZäöüÄÖÜßẞ]+)/gu, (segment) => {
+    if (!/^[a-zA-ZäöüÄÖÜßẞ]+$/u.test(segment)) return segment;
+    return convertWetzelWord(segment);
+  });
+}
+
+function convertWetzelWord(word) {
+  let res = "";
+  let i = 0;
+  const len = word.length;
+
+  while (i < len) {
+    const remaining = word.slice(i);
+    // QU
+    if (/^qu/i.test(remaining)) {
+      res += (word[i] === word[i].toUpperCase()) ? "C̆" : "c̆";
+      i += 2;
+      continue;
+    }
+
+    const ch = word[i];
+    const lowCh = ch.toLowerCase();
+    const isUpper = (ch === ch.toUpperCase());
+
+    const wetzelMap = {
+      'f': { maj: "V́", min: "v́" },
+      'g': { maj: "Ć", min: "ć" },
+      'h': { maj: "’", min: "’" },
+      'j': { maj: "Í", min: "í" },
+      'k': { maj: "C̀", min: "c̀" },
+      'l': { maj: "Į", min: "į" },
+      'm': { maj: "Ń", min: "ń" },
+      'p': { maj: "B́", min: "b́" },
+      's': { maj: "Ç", min: "ç" },
+      't': { maj: "D́", min: "d́" },
+      'u': { maj: "V̆", min: "v̆" },
+      'w': { maj: "V̀", min: "v̀" },
+      'x': { maj: "Ĉ", min: "ĉ" },
+      'y': { maj: "Ì", min: "ì" },
+      'z': { maj: "D̀", min: "d̀" }
+    };
+
+    if (wetzelMap[lowCh]) {
+      res += isUpper ? wetzelMap[lowCh].maj : wetzelMap[lowCh].min;
+    } else {
+      res += ch;
+    }
+    i++;
+  }
+
+  return res;
+}
+
+/**
+ * -------------------------------------------------------------
+ * 100% EINDEUTIGE RÜCKÜBERSETZUNGEN (KANZLEI ➔ DEUTSCH)
  * -------------------------------------------------------------
  */
 function convertDionysosToDe(text) {
   if (!text) return "";
 
-  // 1. Arabisch-indische Ziffern rückübersetzen
-  text = text.replace(/[٠-٩]/g, d => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
+  // 1. Arabisch-indische Ziffern rückwandeln
+  let processed = text.replace(/[٠-٩]/g, d => String('٠١٢٣٤٥٦٧٨٩'.indexOf(d)));
 
-  // 2. Griechische Zahlen erkennen & rückwandeln (Funktioniert fehlerfrei auch für reine 10er & 100er wie ι´, ρ´)
+  // 2. Griechische Zahlen rückwandeln
   const GREEK_NUM_REGEX = /(?:(?:[,͵][α-θϛϝ]|[α-θϛϝρ-ϡι-ϟ])+Μ(?:\s*(?:[,͵][α-θϛϝ]|[α-θϛϝρ-ϡι-ϟ])+)?´|(?:[,͵][α-θϛϝ]|[α-θϛϝρ-ϡι-ϟ])+´)/g;
-  let processed = text.replace(GREEK_NUM_REGEX, (match) => {
+  processed = processed.replace(GREEK_NUM_REGEX, (match) => {
     const arabVal = greekToArabicNumber(match);
     return arabVal !== null ? arabVal.toString() : match;
   });
 
-  // 3. Dionysos-Rückabbildung (Vollständig inkl. ÖH, Q, TitleCase AI & EY)
+  // 3. Glyphen-Rückabbildung (Greedy: längste zuerst)
   const rev = [
     { k: "Αͤ’", d: "Äh" }, { k: "αͤ’", d: "äh" },
     { k: "Oͤ’", d: "Öh" }, { k: "oͤ’", d: "öh" },
@@ -1537,14 +1566,14 @@ function convertDionysosToDe(text) {
     { k: "Ο’", d: "Oh" }, { k: "ο’", d: "oh" },
     { k: "ΑΙ", d: "Ai" }, { k: "Αι", d: "Ai" }, { k: "αι", d: "ai" },
     { k: "EY", d: "Ei" }, { k: "Ey", d: "Ei" }, { k: "ey", d: "ei" },
-    { k: "É", d: "Eu" }, { k: "é", d: "eu" },
+    { k: "Ή", d: "Eu" }, { k: "ή", d: "eu" },
     { k: "Ā", d: "Aa" }, { k: "ā", d: "aa" },
-    { k: "Ē", d: "Ee" }, { k: "ē", d: "ee" },
+    { k: "Η̄", d: "Ee" }, { k: "η̄", d: "ee" },
     { k: "Ω", d: "Oo" }, { k: "ω", d: "oo" },
     { k: "Ī", d: "Ie" }, { k: "ī", d: "ie" },
     { k: "Ά", d: "Au" }, { k: "ά", d: "au" },
-    { k: "Š", d: "Sch" }, { k: "š", d: "sch" },
-    { k: "Ś", d: "Sp" }, { k: "ś", d: "sp" },
+    { k: "Σ̌", d: "Sch" }, { k: "σ̌", d: "sch" },
+    { k: "Σ́", d: "Sp" }, { k: "σ́", d: "sp" },
     { k: "Ↄ", d: "St" }, { k: "ↄ", d: "st" },
     { k: "Ϻ", d: "Ss" }, { k: "ϻ", d: "ss" },
     { k: "Č", d: "Ck" }, { k: "č", d: "ck" },
@@ -1588,38 +1617,61 @@ function convertDionysosToDe(text) {
 function convertDeutscheKanzleiToDe(text) {
   if (!text) return "";
 
-  // 1. Virgel zurück in Komma
+  // 1. Virgel
   let processed = text.replace(/⁄/g, ",");
 
   // 2. Abbreviaturen auflösen
+  processed = processed.replace(/\u0367/g, "un");
+  processed = processed.replace(/\u0369/g, "de");
+  processed = processed.replace(/\u036D/g, "te");
+  processed = processed.replace(/\u0365/g, "in");
   processed = processed.replace(/\u0328/g, "en");
   processed = processed.replace(/\u035B/g, "er");
 
-  // 3. Glyphen-Rückabbildung
+  // 3. Geminations-Makrons auflösen
+  const geminationMap = {
+    'Ā': "Aa", 'ā': "aa", 'Ē': "Ee", 'ē': "ee", 'Ī': "Ie", 'ī': "ie", 'Ō': "Oo", 'ō': "oo",
+    'S̄': "SS", 's̄': "ss"
+  };
+  for (const [k, v] of Object.entries(geminationMap)) {
+    processed = processed.split(k).join(v);
+  }
+  // Beliebiger Buchstabe + Kombinierendes Makron \u0304
+  processed = processed.replace(/([a-zA-ZäöüÄÖÜ])\u0304/g, (m, c) => c + c.toLowerCase());
+
+  // 4. Glyphen auflösen
   const rev = [
+    { k: "Aͤ’", d: "Äh" }, { k: "aͤ’", d: "äh" },
+    { k: "Oͤ’", d: "Öh" }, { k: "oͤ’", d: "öh" },
+    { k: "Vͤ’", d: "Üh" }, { k: "vͤ’", d: "üh" },
+    { k: "V̆’", d: "Uh" }, { k: "v̆’", d: "uh" },
+    { k: "A’", d: "Ah" }, { k: "a’", d: "ah" },
+    { k: "E’", d: "Eh" }, { k: "e’", d: "eh" },
+    { k: "O’", d: "Oh" }, { k: "o’", d: "oh" },
     { k: "Aͤ́", d: "Äu" }, { k: "aͤ́", d: "äu" },
     { k: "’EY", d: "Ei" }, { k: "’Ey", d: "Ei" }, { k: "’ey", d: "ei" },
     { k: "’ĈS", d: "X" }, { k: "’Ĉs", d: "X" }, { k: "’ĉs", d: "x" },
+    { k: "’Ń", d: "Hm" }, { k: "’ń", d: "hm" },
+    { k: "’N̄", d: "Hn" }, { k: "’n̄", d: "hn" },
+    { k: "’Ↄ", d: "Hst" }, { k: "’ↄ", d: "hst" },
+    { k: "’D", d: "Hd" }, { k: "’d", d: "hd" },
+    { k: "’L", d: "Hl" }, { k: "’l", d: "hl" },
+    { k: "’R", d: "Hr" }, { k: "’r", d: "hr" },
+    { k: "’Đ", d: "Ht" }, { k: "’đ", d: "ht" },
+    { k: "’S", d: "Hs" }, { k: "’ſ", d: "hs" }, { k: "’s", d: "hs" },
+    { k: "’E", d: "He" }, { k: "’e", d: "he" },
     { k: "Aͤ", d: "Ä" }, { k: "aͤ", d: "ä" },
     { k: "Oͤ", d: "Ö" }, { k: "oͤ", d: "ö" },
     { k: "Vͤ", d: "Ü" }, { k: "vͤ", d: "ü" },
-    { k: "V̅", d: "U" }, { k: "v̅", d: "u" },
+    { k: "V̆", d: "U" }, { k: "v̆", d: "u" },
     { k: "VV", d: "W" }, { k: "Vv", d: "W" }, { k: "vv", d: "w" },
-    { k: "Ā", d: "Aa" }, { k: "ā", d: "aa" },
-    { k: "Ē", d: "Ee" }, { k: "ē", d: "ee" },
-    { k: "Ō", d: "Oo" }, { k: "ō", d: "oo" },
-    { k: "Ī", d: "Ie" }, { k: "ī", d: "ie" },
     { k: "Á", d: "Au" }, { k: "á", d: "au" },
     { k: "É", d: "Eu" }, { k: "é", d: "eu" },
     { k: "Š", d: "Sch" }, { k: "š", d: "sch" },
     { k: "Ś", d: "Sp" }, { k: "ś", d: "sp" },
     { k: "Ↄ", d: "St" }, { k: "ↄ", d: "st" },
-    { k: "S̄", d: "Ss" }, { k: "s̄", d: "ss" },
     { k: "Č", d: "Ck" }, { k: "č", d: "ck" },
     { k: "Ç", d: "Ch" }, { k: "ç", d: "ch" },
-    { k: "L̄", d: "Ll" }, { k: "l̄", d: "ll" },
-    { k: "Ñ", d: "Mm" }, { k: "ñ", d: "mm" },
-    { k: "N̄", d: "Nn" }, { k: "n̄", d: "nn" },
     { k: "Ŋ", d: "Ng" }, { k: "ŋ", d: "ng" },
     { k: "Ƀ’", d: "Pf" }, { k: "ƀ’", d: "pf" },
     { k: "Ṽ’", d: "Ph" }, { k: "ṽ’", d: "ph" },
@@ -1635,6 +1687,39 @@ function convertDeutscheKanzleiToDe(text) {
     { k: "Đ", d: "T" }, { k: "đ", d: "t" },
     { k: "Ì", d: "Y" }, { k: "ì", d: "y" },
     { k: "ſ", d: "s" }
+  ];
+
+  return applyReverseRules(processed, rev);
+}
+
+function convertWetzelToDe(text) {
+  if (!text) return "";
+
+  // 1. Römische Vinculum-Zahlen rückübersetzen (längste Ziffernfolgen zuerst)
+  const ROMAN_VINCULUM_REGEX = /(?:[IVXLCDM]̅|[IVXLCDM])+/g;
+  let processed = text.replace(ROMAN_VINCULUM_REGEX, (match) => {
+    const val = romanVinculumToArabic(match);
+    return val !== null ? val.toString() : match;
+  });
+
+  // 2. Glyphen der Wetzel'schen Schrift rückübersetzen
+  const rev = [
+    { k: "V́", d: "F" }, { k: "v́", d: "f" },
+    { k: "Ć", d: "G" }, { k: "ć", d: "g" },
+    { k: "’", d: "h" },
+    { k: "Í", d: "J" }, { k: "í", d: "j" },
+    { k: "C̀", d: "K" }, { k: "c̀", d: "k" },
+    { k: "Į", d: "L" }, { k: "į", d: "l" },
+    { k: "Ń", d: "M" }, { k: "ń", d: "m" },
+    { k: "B́", d: "P" }, { k: "b́", d: "p" },
+    { k: "C̆", d: "Qu" }, { k: "c̆", d: "qu" },
+    { k: "Ç", d: "S" }, { k: "ç", d: "s" },
+    { k: "D́", d: "T" }, { k: "d́", d: "t" },
+    { k: "V̆", d: "U" }, { k: "v̆", d: "u" },
+    { k: "V̀", d: "W" }, { k: "v̀", d: "w" },
+    { k: "Ĉ", d: "X" }, { k: "ĉ", d: "x" },
+    { k: "Ì", d: "Y" }, { k: "ì", d: "y" },
+    { k: "D̀", d: "Z" }, { k: "d̀", d: "z" }
   ];
 
   return applyReverseRules(processed, rev);
@@ -1666,7 +1751,7 @@ function applyReverseRules(str, ruleList) {
 
 /**
  * -------------------------------------------------------------
- * ZAHLENSYSTEM-HELFER (GRIECHISCH & INDISCH-ARABISCH)
+ * ZAHLENSYSTEM-HELFER (GRIECHISCH, ARABISCH & RÖMISCH MIT VINCULUM)
  * -------------------------------------------------------------
  */
 const ONES_MAP = ["", "α", "β", "γ", "δ", "ε", "ϛ", "ζ", "η", "θ"];
@@ -1688,9 +1773,7 @@ function arabicToGreekNumber(n) {
     const myriads = Math.floor(n / 10000);
     const remainder = n % 10000;
     const myriadFactor = convertSub10k(myriads, false);
-    if (remainder === 0) {
-      return myriadFactor + "Μ´";
-    }
+    if (remainder === 0) return myriadFactor + "Μ´";
     return myriadFactor + "Μ " + convertSub10k(remainder, true);
   }
 
@@ -1720,9 +1803,7 @@ function greekToArabicNumber(str) {
     const remPart = parts[1] || "";
     const mVal = parseSub10kGreek(myriadPart);
     const rVal = parseSub10kGreek(remPart);
-    if (mVal !== null) {
-      return mVal * 10000 + (rVal || 0);
-    }
+    if (mVal !== null) return mVal * 10000 + (rVal || 0);
   }
   return parseSub10kGreek(str);
 }
@@ -1773,10 +1854,60 @@ function parseSub10kGreek(s) {
   return total > 0 ? total : null;
 }
 
-/**
- * Fehlerfreie Beibehaltung der Groß-/Kleinschreibung (TitleCase & AllCaps)
- * Verhindert das Zerstören von kombinierenden Diakritika wie bei ND (D̴)
- */
+// Vinculum Römische Zahlen
+function arabicToRomanVinculum(num) {
+  if (num < 1 || num > 3999999) return num.toString();
+
+  const romanMapping = [
+    { v: 1000000, s: "M̅" }, { v: 900000, s: "C̅M̅" }, { v: 500000, s: "D̅" }, { v: 400000, s: "C̅D̅" },
+    { v: 100000, s: "C̅" }, { v: 90000, s: "X̅C̅" }, { v: 50000, s: "L̅" }, { v: 40000, s: "X̅L̅" },
+    { v: 10000, s: "X̅" }, { v: 9000, s: "MX̅" }, { v: 5000, s: "V̅" }, { v: 4000, s: "MV̅" },
+    { v: 1000, s: "M" }, { v: 900, s: "CM" }, { v: 500, s: "D" }, { v: 400, s: "CD" },
+    { v: 100, s: "C" }, { v: 90, s: "XC" }, { v: 50, s: "L" }, { v: 40, s: "XL" },
+    { v: 10, s: "X" }, { v: 9, s: "IX" }, { v: 5, s: "V" }, { v: 4, s: "IV" }, { v: 1, s: "I" }
+  ];
+
+  let res = "";
+  let rem = num;
+  for (const item of romanMapping) {
+    while (rem >= item.v) {
+      res += item.s;
+      rem -= item.v;
+    }
+  }
+  return res;
+}
+
+function romanVinculumToArabic(str) {
+  if (!str) return null;
+  const romanMapping = [
+    { v: 1000000, s: "M̅" }, { v: 900000, s: "C̅M̅" }, { v: 500000, s: "D̅" }, { v: 400000, s: "C̅D̅" },
+    { v: 100000, s: "C̅" }, { v: 90000, s: "X̅C̅" }, { v: 50000, s: "L̅" }, { v: 40000, s: "X̅L̅" },
+    { v: 10000, s: "X̅" }, { v: 9000, s: "MX̅" }, { v: 5000, s: "V̅" }, { v: 4000, s: "MV̅" },
+    { v: 1000, s: "M" }, { v: 900, s: "CM" }, { v: 500, s: "D" }, { v: 400, s: "CD" },
+    { v: 100, s: "C" }, { v: 90, s: "XC" }, { v: 50, s: "L" }, { v: 40, s: "XL" },
+    { v: 10, s: "X" }, { v: 9, s: "IX" }, { v: 5, s: "V" }, { v: 4, s: "IV" }, { v: 1, s: "I" }
+  ];
+
+  let total = 0;
+  let i = 0;
+  const len = str.length;
+
+  while (i < len) {
+    let matched = false;
+    for (const item of romanMapping) {
+      if (str.startsWith(item.s, i)) {
+        total += item.v;
+        i += item.s.length;
+        matched = true;
+        break;
+      }
+    }
+    if (!matched) return null;
+  }
+  return total > 0 ? total : null;
+}
+
 function preserveCase(original, maj, min) {
   if (original === original.toUpperCase()) return maj;
   if (original[0] === original[0].toUpperCase()) {
@@ -1800,56 +1931,63 @@ function switchScript(scriptKey) {
 
   document.getElementById("btnScriptDionysos").classList.toggle("active", scriptKey === "dionysos");
   document.getElementById("btnScriptDeutsch").classList.toggle("active", scriptKey === "deutsch");
+  document.getElementById("btnScriptWetzel").classList.toggle("active", scriptKey === "wetzel");
+
+  dionysosOptions.style.display = (scriptKey === "dionysos") ? "flex" : "none";
+  deutschOptions.style.display = (scriptKey === "deutsch") ? "flex" : "none";
+  wetzelOptions.style.display = (scriptKey === "wetzel") ? "flex" : "none";
 
   if (scriptKey === "dionysos") {
-    appHeaderTitle.innerText = "Dionysos'sche Kanzleischrift";
+    appHeaderTitle.innerText = "1. Dionysos'sche Kanzleischrift";
     appHeaderDesc.innerText = "Bidirektionaler Text- & Zahlenkonverter mit antikem milesischem Zahlensystem";
-    dionysosOptions.style.display = "flex";
-    deutschOptions.style.display = "none";
     numberRuleHint.innerText = "Zahlen 1 bis 99.999.999 ➔ Griechisch | Negative Zahlen, Null & ab 100.000.000 ➔ Arabisch-Indisch (٠١٢٣...)";
-
-    if (currentMode === "de-to-kanzlei") {
-      targetTitle.innerHTML = "<span>📜</span> Dionysos'sche Kanzleischrift";
-    } else {
-      sourceTitle.innerHTML = "<span>📜</span> Dionysos'sche Kanzleischrift";
-    }
+  } else if (scriptKey === "deutsch") {
+    appHeaderTitle.innerText = "2. Deutsche Kanzleischrift";
+    appHeaderDesc.innerText = "Kanzleiform mit indisch-arabischen Ziffern (0–9), Schaft-s, Geminationsmakrons & Abbreviaturen";
+    numberRuleHint.innerText = "Zahlensystem: Indisch-Arabische Standardziffern (0–9) bleiben unverändert";
   } else {
-    appHeaderTitle.innerText = "Deutsche Kanzleischrift";
-    appHeaderDesc.innerText = "Historische Kanzleiform mit indisch-arabischen Ziffern (0–9), Schaft-s & Kanzlei-Abbreviaturen";
-    dionysosOptions.style.display = "none";
-    deutschOptions.style.display = "flex";
-    numberRuleHint.innerText = "Zahlensystem: Indisch-Arabische Standardziffern (0, 1, 2, 3, 4, 5, 6, 7, 8, 9) bleiben unverändert";
-
-    if (currentMode === "de-to-kanzlei") {
-      targetTitle.innerHTML = "<span>✒️</span> Deutsche Kanzleischrift";
-    } else {
-      sourceTitle.innerHTML = "<span>✒️</span> Deutsche Kanzleischrift";
-    }
+    appHeaderTitle.innerText = "3. Wetzel'sche Reduktionsschrift";
+    appHeaderDesc.innerText = "Diakritisch reduziertes Schriftsystem mit römischen Vinculum-Ziffern bis 3.999.999";
+    numberRuleHint.innerText = "Zahlensystem: Römische Zahlen mit Vinculum ◌̅ (1 bis 3.999.999); ab 4.000.000 Standardziffern";
   }
 
+  updateTitles();
   buildKeyboardTabs();
   buildPalette();
   renderDocumentation();
   runConversion();
 }
 
+function updateTitles() {
+  const titles = {
+    dionysos: "<span>📜</span> Dionysos'sche Kanzleischrift",
+    deutsch: "<span>✒️</span> Deutsche Kanzleischrift",
+    wetzel: "<span>🏛️</span> Wetzel'sche Reduktionsschrift"
+  };
+
+  if (currentMode === "de-to-kanzlei") {
+    sourceTitle.innerHTML = "<span>🇩🇪</span> Standard-Deutsch";
+    targetTitle.innerHTML = titles[currentScript];
+  } else {
+    sourceTitle.innerHTML = titles[currentScript];
+    targetTitle.innerHTML = "<span>🇩🇪</span> Standard-Deutsch";
+  }
+}
+
 function toggleDirection() {
   if (currentMode === "de-to-kanzlei") {
     currentMode = "kanzlei-to-de";
-    sourceTitle.innerHTML = currentScript === "dionysos" ? "<span>📜</span> Dionysos'sche Kanzleischrift" : "<span>✒️</span> Deutsche Kanzleischrift";
-    targetTitle.innerHTML = "<span>🇩🇪</span> Standard-Deutsch";
-    sourceHint.innerText = "Modus: Kanzlei ➔ Normaldeutsch";
+    sourceHint.innerText = "Modus: Schriftart ➔ Normaldeutsch";
     inputEl.classList.add("kanzlei-font");
     outputEl.classList.remove("kanzlei-font");
   } else {
     currentMode = "de-to-kanzlei";
-    sourceTitle.innerHTML = "<span>🇩🇪</span> Standard-Deutsch";
-    targetTitle.innerHTML = currentScript === "dionysos" ? "<span>📜</span> Dionysos'sche Kanzleischrift" : "<span>✒️</span> Deutsche Kanzleischrift";
-    sourceHint.innerText = "Modus: Normalschrift ➔ Kanzlei";
+    sourceHint.innerText = "Modus: Normalschrift ➔ Schriftart";
     inputEl.classList.remove("kanzlei-font");
     outputEl.classList.add("kanzlei-font");
   }
 
+  updateTitles();
   const tmp = inputEl.value;
   inputEl.value = outputEl.value;
   outputEl.value = tmp;
@@ -1872,7 +2010,7 @@ function buildKeyboardTabs() {
       <button class="tab-btn" onclick="filterPalette('S-Z', this)">S – Z (inkl. Ü & ẞ)</button>
       <button class="tab-btn" onclick="filterPalette('numbers', this)">Griechische Zahlen (1 bis 100 Mio.)</button>
     `;
-  } else {
+  } else if (currentScript === "deutsch") {
     container.innerHTML = `
       <button class="tab-btn active" onclick="filterPalette('all', this)">Alle Zeichen</button>
       <button class="tab-btn" onclick="filterPalette('A-E', this)">A – E (inkl. Ä)</button>
@@ -1881,44 +2019,73 @@ function buildKeyboardTabs() {
       <button class="tab-btn" onclick="filterPalette('S-Z', this)">S – Z (inkl. Ü & ẞ)</button>
       <button class="tab-btn" onclick="filterPalette('abbr', this)">Abbreviaturen & Satzzeichen</button>
     `;
+  } else {
+    container.innerHTML = `
+      <button class="tab-btn active" onclick="filterPalette('all', this)">Alle Zeichen</button>
+      <button class="tab-btn" onclick="filterPalette('A-E', this)">A – E (inkl. Ä)</button>
+      <button class="tab-btn" onclick="filterPalette('F-L', this)">F – L</button>
+      <button class="tab-btn" onclick="filterPalette('M-R', this)">M – R (inkl. Ö)</button>
+      <button class="tab-btn" onclick="filterPalette('S-Z', this)">S – Z (inkl. Ü & ẞ)</button>
+      <button class="tab-btn" onclick="filterPalette('numbers', this)">Römische Zahlen mit Vinculum</button>
+    `;
   }
 }
 
 function buildPalette() {
   const container = document.getElementById("paletteGrid");
   container.innerHTML = "";
-  const spec = (currentScript === "dionysos") ? DIONYSOS_SPEC : DEUTSCH_SPEC;
+  let spec = DIONYSOS_SPEC;
+  if (currentScript === "deutsch") spec = DEUTSCH_SPEC;
+  else if (currentScript === "wetzel") spec = WETZEL_SPEC;
+
   const seenChars = new Set();
 
   spec.forEach(item => {
-    // Großbuchstabe
+    // 1. Abbreviaturen, Satzzeichen und Sonderzeichen (haben keine Groß/Klein-Unterscheidung -> genau 1 Button)
+    if (item.group === "abbr") {
+      const charToInsert = item.maj || item.min;
+      if (!seenChars.has(charToInsert)) {
+        seenChars.add(charToInsert);
+        const btn = document.createElement("button");
+        btn.className = "char-btn";
+        btn.dataset.cat = "abbr";
+        btn.innerHTML = `<span class="c-kanzlei">${charToInsert}</span><span class="c-desc">${item.de}</span>`;
+        btn.onclick = () => insertAtCursor(charToInsert);
+        container.appendChild(btn);
+      }
+      return;
+    }
+
+    // 2. Reguläre Großbuchstaben
     if (item.maj && !seenChars.has(item.maj)) {
       seenChars.add(item.maj);
       const btnMaj = document.createElement("button");
       btnMaj.className = "char-btn";
       btnMaj.dataset.cat = item.group;
       btnMaj.innerHTML = `<span class="c-kanzlei">${item.maj}</span><span class="c-desc">${item.de.toUpperCase()}</span>`;
-      btnMaj.onclick = () => insertAtCursor(item.maj.replace("◌", ""));
+      btnMaj.onclick = () => insertAtCursor(item.maj);
       container.appendChild(btnMaj);
     }
-    // Kleinbuchstabe
+
+    // 3. Reguläre Kleinbuchstaben (nur wenn sie sich vom Großbuchstaben unterscheiden)
     if (item.min && item.min !== item.maj && !seenChars.has(item.min)) {
       seenChars.add(item.min);
       const btnMin = document.createElement("button");
       btnMin.className = "char-btn";
       btnMin.dataset.cat = item.group;
       btnMin.innerHTML = `<span class="c-kanzlei">${item.min}</span><span class="c-desc">${item.de.toLowerCase()}</span>`;
-      btnMin.onclick = () => insertAtCursor(item.min.replace("◌", ""));
+      btnMin.onclick = () => insertAtCursor(item.min);
       container.appendChild(btnMin);
     }
-    // End-Kleinbuchstabe (z.B. ’ς)
+
+    // 4. Auslaut-/Schluss-Varianten (z. B. finales Schluss-s 'ς)
     if (item.endMin && !seenChars.has(item.endMin)) {
       seenChars.add(item.endMin);
       const btnEnd = document.createElement("button");
       btnEnd.className = "char-btn";
       btnEnd.dataset.cat = item.group;
       btnEnd.innerHTML = `<span class="c-kanzlei">${item.endMin}</span><span class="c-desc">${item.de.toLowerCase()} (Ende)</span>`;
-      btnEnd.onclick = () => insertAtCursor(item.endMin.replace("◌", ""));
+      btnEnd.onclick = () => insertAtCursor(item.endMin);
       container.appendChild(btnEnd);
     }
   });
@@ -1929,6 +2096,15 @@ function buildPalette() {
       btnNum.className = "char-btn";
       btnNum.dataset.cat = "numbers";
       btnNum.innerHTML = `<span class="c-kanzlei">${num.sym}</span><span class="c-desc">${num.val > 0 ? num.val : num.name}</span>`;
+      btnNum.onclick = () => insertAtCursor(num.sym);
+      container.appendChild(btnNum);
+    });
+  } else if (currentScript === "wetzel") {
+    ROMAN_VINCULUM_SPEC.forEach(num => {
+      const btnNum = document.createElement("button");
+      btnNum.className = "char-btn";
+      btnNum.dataset.cat = "numbers";
+      btnNum.innerHTML = `<span class="c-kanzlei">${num.sym}</span><span class="c-desc">${num.val.toLocaleString('de-DE')}</span>`;
       btnNum.onclick = () => insertAtCursor(num.sym);
       container.appendChild(btnNum);
     });
@@ -1953,12 +2129,15 @@ function insertAtCursor(text) {
     toggleDirection();
   }
 
+  // Entferne eventuelle Platzhalterkreise ◌ vor dem Einfügen
+  const cleanText = text.replace(/◌/g, "");
+
   const start = inputEl.selectionStart;
   const end = inputEl.selectionEnd;
   const val = inputEl.value;
 
-  inputEl.value = val.substring(0, start) + text + val.substring(end);
-  inputEl.selectionStart = inputEl.selectionEnd = start + text.length;
+  inputEl.value = val.substring(0, start) + cleanText + val.substring(end);
+  inputEl.selectionStart = inputEl.selectionEnd = start + cleanText.length;
   inputEl.focus();
   runConversion();
 }
@@ -1973,54 +2152,70 @@ function renderDocumentation() {
 
   if (currentScript === "dionysos") {
     container.innerHTML = `
-      <h2 class="section-title">Ausführliches Regelwerk: Dionysos'sche Kanzleischrift</h2>
+      <h2 class="section-title">Ausführliches Nachschlagewerk: 1. Dionysos'sche Kanzleischrift</h2>
 
       <div class="rule-box" style="border-left-color: #f7e089;">
-        <h3>Das antike milesische Zahlensystem & Myriaden (1 bis 99.999.999)</h3>
-        <p>Im altgriechischen milesischen Zahlensystem werden die 24 Buchstaben des klassischen Alphabets sowie 3 historische Zeichen (<em>Stigma</em> für 6, <em>Koppa</em> für 90, <em>Sampi</em> für 900) verwendet:</p>
+        <h3>Zahlensystem: Antikes milesisches Zahlensystem mit Keraia & Myriaden</h3>
+        <p>Das milesische (oder ionische) System ordnet Buchstaben feste dezimale Stellenwerte zu. Zur vollständigen Darstellung der 9 Einer, 9 Zehner und 9 Hunderter werden neben den 24 klassischen griechischen Buchstaben drei archaische Sonderzeichen genutzt: <strong>ϛ (Stigma / Digamma)</strong> = 6, <strong>ϟ (Koppa)</strong> = 90 und <strong>ϡ (Sampi)</strong> = 900.</p>
         <ul>
-          <li><strong>Keraia (´):</strong> Zeigt an, dass der Buchstabe ein Zahlenwert ist (z.&nbsp;B. <code>α´</code> = 1, <code>ι´</code> = 10, <code>ρ´</code> = 100).</li>
-          <li><strong>Aristeri Keraia (,):</strong> Multipliziert Einerstellen mit 1.000: <code>,α</code> = 1.000, <code>,β</code> = 2.000, <code>,θ</code> = 9.000. Beispiel: <code>4.321</code> = <code>,δτκα´</code>.</li>
-          <li><strong>Myriaden (10.000 bis 99.999.999):</strong> Symbol <strong>Μ</strong>. Multiplikator steht vor <strong>Μ</strong>: <code>10.000</code> = <code>αΜ´</code>, <code>50.000</code> = <code>εΜ´</code>.</li>
-          <li><strong>Grenzen des milesischen Systems:</strong> Negative Zahlen, die Null (<code>0</code>) sowie Werte ab <code>100.000.000</code> werden in arabisch-indischen Ziffern (<code>٠١٢٣٤٥٦٧٨٩</code>) notiert (z.&nbsp;B. <code>-5</code> ➔ <code>-٥</code>, <code>0</code> ➔ <code>٠</code>).</li>
+          <li><strong>Rechte Keraia (Dexia Keraia ´):</strong> Wird an jede Zahlengruppe von 1 bis 9.999 angehängt, um anzuzeigen, dass die Zeichen als mathematische Zahlenwerte und nicht als Lesetext zu interpretieren sind (z.&nbsp;B. <code>α´</code> = 1, <code>ι´</code> = 10, <code>ια´</code> = 11, <code>ρ´</code> = 100, <code>σκγ´</code> = 223).</li>
+          <li><strong>Linke Keraia (Aristeri Keraia ,):</strong> Steht als Tief- oder Vorstrich vor einem Einer-Buchstaben und multipliziert dessen Grundwert mit 1.000: <code>,α</code> = 1.000, <code>,β</code> = 2.000, <code>,θ</code> = 9.000. Zusammengesetztes Beispiel: <code>,δτκα´</code> = 4.321.</li>
+          <li><strong>Myriaden-Schreibung (Μ von 10.000 bis 99.999.999):</strong> Das Zeichen <strong>Μ</strong> (Myrias) repräsentiert den Multiplikator 10.000. Der Faktor vor dem Μ gibt die Anzahl der Myriaden an (z.&nbsp;B. <code>αΜ´</code> = 10.000, <code>εΜ´</code> = 50.000, <code>,βχΜ ,δφξζ´</code> = 2.600 Myriaden + 4.567 = 26.004.567).</li>
+          <li><strong>Ausnahmen & Fallback auf Arabisch-Indische Ziffern (٠١٢٣٤٥٦٧٨٩):</strong> Da das antike System keine Ziffer Null (0), keine negativen Vorzeichen und keine Kommastellen für reelle Brüche kennt, weichen folgende Werte zwingend auf die arabisch-indischen Ziffern aus:
+            <ul>
+              <li>Die Null: <code>0</code> ➔ <strong>٠</strong></li>
+              <li>Negative Werte: <code>-42</code> ➔ <strong>-٤٢</strong></li>
+              <li>Dezimalzahlen: <code>3,14</code> ➔ <strong>٣,١٤</strong></li>
+              <li>Zahlen ab 100.000.000: <code>100.000.000</code> ➔ <strong>١٠٠٠٠٠٠٠٠</strong></li>
+            </ul>
+          </li>
         </ul>
       </div>
 
       <div class="rule-box">
-        <h3>1. Der CH-Laut: Ach-Laut (Χ / χ) vs. Ich-Laut (Ç / ç)</h3>
-        <p>Phonetische Unterscheidung:</p>
+        <h3>1. Die CH-Regel: Ach-Laut (Χ / χ) vs. Ich-Laut (Ç / ç)</h3>
+        <p>Die Schreibung unterscheidet phonetisch präzise zwischen dem velaren Reibelaut (Ach-Laut) und dem palatalen Reibelaut (Ich-Laut):</p>
         <ul>
-          <li><strong>Ach-Laut (Χ / χ):</strong> Nach dunklen Vokalen <code>a, o, u</code> und Diphthong <code>au</code> (z.&nbsp;B. <em>Bach, Loch, Buch, Rauch</em>).</li>
-          <li><strong>Ich-Laut (Ç / ç):</strong> Nach hellen Vokalen (<code>e, i, ä, ö, ü</code>), Diphthongen (<code>ei, eu, äu</code>), nach Konsonanten (<code>l, r, n</code>) und im Anlaut (z.&nbsp;B. <em>Ich, Pech, Milch, euch, Bräuche, Chemie</em>).</li>
+          <li><strong>Ach-Laut (Χ / χ):</strong> Tritt ausschließlich nach hinteren, dunklen Stammvokalen auf, namentlich nach <code>a, o, u</code> sowie nach dem Diphthong <code>au</code> (z.&nbsp;B. <em>Bach, Koch, Buch, Rauch</em>).</li>
+          <li><strong>Ich-Laut (Ç / ç):</strong> Tritt in allen anderen Positionen auf:
+            <ul>
+              <li>Nach vorderen, hellen Vokalen: <code>e, i, ä, ö, ü</code> (z.&nbsp;B. <em>Pech, ich, Dächer, Löcher, Küche</em>).</li>
+              <li>Nach den Diphthongen <code>ei, eu, äu</code> (z.&nbsp;B. <em>Teich, euch, Bräuche</em> – trotz des 'u' am Ende von 'eu'/'äu' handelt es sich phonetisch um den Ich-Laut!).</li>
+              <li>Nach Konsonanten: <code>l, r, n</code> (z.&nbsp;B. <em>Milch, Furcht, Mönch</em>).</li>
+              <li>Im Wort- und Silbenanlaut vor Vokalen: z.&nbsp;B. <em>Chemie, Chirurg</em>.</li>
+            </ul>
+          </li>
         </ul>
       </div>
 
       <div class="rule-box">
-        <h3>2. Das Phänomen S & Korrektur von Z / TZ</h3>
+        <h3>2. Die S-Laute & Affrikaten</h3>
         <ul>
-          <li><strong>Stimmhaftes S (Ζ / ζ):</strong> Silbenanlaut vor Vokalen (z.&nbsp;B. <em>Sonne, See, Rose</em>).</li>
-          <li><strong>Stimmloses S (Σ / σ):</strong> Vor Konsonanten oder nach stimmlosen Lauten (z.&nbsp;B. <em>Smaragd, Skizze</em>).</li>
-          <li><strong>Finales S (ς):</strong> Am absoluten Wortende (z.&nbsp;B. <em>des, Hauses, Glas</em>).</li>
-          <li><strong>Speziallaute:</strong> <code>SS</code> ➔ <strong>Ϻ / ϻ</strong>, <code>ST</code> ➔ <strong>Ↄ / ↄ</strong>, <code>SP</code> ➔ <strong>Ś / ś</strong>, <code>SCH</code> ➔ <strong>Š / š</strong>, <code>ẞ / ß</code> ➔ <strong>Ϡ / ϡ</strong>.</li>
-          <li><strong>Korrektur Z & TZ:</strong> <code>Z / z</code> ➔ <strong>Ď / ď</strong> und <code>TZ / tz</code> ➔ <strong>Đ’ / đ’</strong>.</li>
+          <li><strong>Stimmhaftes S (Ζ / ζ):</strong> Steht im Silbenanlaut direkt vor Vokalen (z.&nbsp;B. <em>Sonne, See, reisen</em>).</li>
+          <li><strong>Stimmloses S (Σ / σ):</strong> Steht vor Konsonanten und im Inlaut nach Konsonanten (z.&nbsp;B. <em>Skandal, Knospe, Maske</em>).</li>
+          <li><strong>Finales Schluss-S (ς):</strong> Wird ausschließlich am absoluten Ende eines Wortes gesetzt (z.&nbsp;B. <em>des, Hauses, Glas</em>).</li>
+          <li><strong>Doppel-SS (Ϻ / ϻ):</strong> Die Gemination zweier 's' nach kurzem Vokal wird durch das archaische griechische <em>San</em> dargestellt (z.&nbsp;B. <em>Fluss, Wasser</em>).</li>
+          <li><strong>Ligaturen & Kombinationen:</strong> <code>ST</code> ➔ <strong>Ↄ / ↄ</strong> (Claudianisches C), <code>SP</code> ➔ <strong>Σ́ / σ́</strong>, <code>SCH</code> ➔ <strong>Σ̌ / σ̌</strong>, <code>ẞ / ß</code> ➔ <strong>Ϡ / ϡ</strong> (Sampi).</li>
+          <li><strong>Affrikate Z & TZ:</strong> <code>Z / z</code> ➔ <strong>Ď / ď</strong> sowie <code>TZ / tz</code> ➔ <strong>Đ’ / đ’</strong>.</li>
         </ul>
       </div>
 
       <div class="rule-box">
-        <h3>3. Der Vokal E: Kurz (Ε / ε) vs. Lang (Η / η)</h3>
+        <h3>3. Der Vokal E: Kurz / Schwa (Ε / ε) vs. Lang (Η / η)</h3>
         <ul>
-          <li><strong>Lang-E (Η / η):</strong> In offenen betonten Silben und vor Dehnungs-H (z.&nbsp;B. <em>sehen, geht, sehr</em>).</li>
-          <li><strong>Kurz-E / Schwa (Ε / ε):</strong> Vor Konsonantenhäufungen (<em>Bett, Nest</em>) sowie in unbetonten Auslautsilben wie <em>-en, -em, -el, -er, -e</em>.</li>
+          <li><strong>Langes E (Η / η - Eta):</strong> In offenen betonten Stammsilben (z.&nbsp;B. <em>beten, Leben</em>) sowie vor Dehnungs-H im Wortstamm (z.&nbsp;B. <em>sehr, geht, Mehl</em>). Doppeltes 'ee' wird zu <strong>Η̄ / η̄</strong>.</li>
+          <li><strong>Kurzes E / Schwa (Ε / ε - Epsilon):</strong> In geschlossenen Silben vor Konsonantenhäufung (z.&nbsp;B. <em>Bett, fest</em>) sowie ausnahmslos in unbetonten End- und Ableitungssilben wie <em>-en, -er, -el, -em, -es, -e</em> (z.&nbsp;B. <em>geh-en, Vät-er</em>).</li>
         </ul>
       </div>
 
       <div class="rule-box">
-        <h3>4. H-Laute & Dehnungs-H</h3>
+        <h3>4. Umfassende Regeln für Hauch- und Dehnungs-H</h3>
         <ul>
-          <li><strong>Hauch-H im Anlaut:</strong> Heta <strong>Ͱ / ͱ</strong> (z.&nbsp;B. <em>Hand</em> ➔ <em>Ͱαᵭ</em>).</li>
-          <li><strong>Dehnungs-H am Wortende:</strong> Apostroph nachgestellt (<code>ah</code> ➔ <strong>α’</strong>, <code>eh</code> ➔ <strong>η’</strong>, <code>oh</code> ➔ <strong>ο’</strong>, <code>öh</code> ➔ <strong>oͤ’</strong>, <code>uh</code> ➔ <strong>v̅’</strong>, <code>äh</code> ➔ <strong>αͤ’</strong>, <code>üh</code> ➔ <strong>vͤ’</strong>).</li>
-          <li><strong>H vor Konsonanten:</strong> Apostroph vorangestellt: <code>hl</code> ➔ <strong>’λ</strong>, <code>hm</code> ➔ <strong>’μ̄</strong>, <code>hn</code> ➔ <strong>’ν̄</strong>, <code>hr</code> ➔ <strong>’ρ</strong>, <code>hd</code> ➔ <strong>’δ</strong>, <code>ht</code> ➔ <strong>’đ</strong>, <code>hs</code> ➔ <strong>’σ / ’ς</strong>, <code>hst</code> ➔ <strong>’Ↄ / ’ↄ</strong>.</li>
-          <li><strong>Intervokalisches HE:</strong> <code>he</code> zwischen Vokalen wird zu <strong>’Ε / ’ε</strong> (z.&nbsp;B. <em>wehe</em> ➔ <em>ϝη’ε</em>).</li>
+          <li><strong>Hauch-H im Anlaut:</strong> Vor Vokalen am Wortanfang steht das altgriechische Heta <strong>Ͱ / ͱ</strong> (z.&nbsp;B. <em>Hand</em> ➔ <em>Ͱαᵭ</em>, <em>Hut</em> ➔ <em>Ͱv̅đ</em>).</li>
+          <li><strong>Dehnungs-H am Wortende:</strong> Steht das Dehnungs-h am absoluten Wortende nach einem Langvokal, entfällt der Buchstabe H; stattdessen tritt ein nachgestellter Apostroph an den Vokal: <code>ah</code> ➔ <strong>α’</strong>, <code>äh</code> ➔ <strong>αͤ’</strong>, <code>eh</code> ➔ <strong>η’</strong>, <code>oh</code> ➔ <strong>ο’</strong>, <code>öh</code> ➔ <strong>oͤ’</strong>, <code>uh</code> ➔ <strong>v̅’</strong>, <code>üh</code> ➔ <strong>vͤ’</strong> (z.&nbsp;B. <em>nah</em> ➔ <em>να’</em>, <em>Kuh</em> ➔ <em>ĉv̅’</em>).</li>
+          <li><strong>Dehnungs-H vor Konsonanten im Inlaut:</strong> Steht das Dehnungs-h vor einem Konsonanten, entfällt das H vollständig; dafür erhält der nachfolgende Konsonant einen vorangestellten Apostroph:
+            <br><code>hd</code> ➔ <strong>’δ</strong> (<em>Fehde</em>), <code>hl</code> ➔ <strong>’λ</strong> (<em>Mehl</em>), <code>hm</code> ➔ <strong>’μ̄</strong> (<em>Lehm</em>), <code>hn</code> ➔ <strong>’ν̄</strong> (<em>Zahn</em>), <code>hr</code> ➔ <strong>’ρ</strong> (<em>sehr</em>), <code>ht</code> ➔ <strong>’đ</strong> (<em>Draht</em>), <code>hs</code> ➔ <strong>’σ</strong> im Inlaut bzw. <strong>’ς</strong> am Wortende, <code>hst</code> ➔ <strong>’ↄ</strong>.</li>
+          <li><strong>Intervokalisches HE:</strong> Steht ein 'he' zwischen zwei Vokalen im Stamm, wird es zu <strong>’Ε / ’ε</strong> (z.&nbsp;B. <em>sehen</em> ➔ <em>ζη’ε</em>, <em>wehe</em> ➔ <em>ϝη’ε</em>). Das Ableitungssuffix <em>-heit</em> bleibt hiervon ausgenommen.</li>
         </ul>
       </div>
 
@@ -2031,59 +2226,79 @@ function renderDocumentation() {
               <th>Deutsches Muster</th>
               <th>Großbuchstabe</th>
               <th>Kleinbuchstabe</th>
-              <th>Bedingung / Kontext</th>
-              <th>Bedeutung / Laut</th>
+              <th>Kontext / Lautwert</th>
+              <th>Beschreibung</th>
             </tr>
           </thead>
           <tbody id="rulesTableBody"></tbody>
         </table>
       </div>
     `;
-    renderRulesTable(DIONYSOS_SPEC, true);
-  } else {
+    renderRulesTable(DIONYSOS_SPEC, "greek");
+  } else if (currentScript === "deutsch") {
     container.innerHTML = `
-      <h2 class="section-title">Ausführliches Regelwerk: Deutsche Kanzleischrift</h2>
+      <h2 class="section-title">Ausführliches Nachschlagewerk: 2. Deutsche Kanzleischrift</h2>
 
       <div class="rule-box" style="border-left-color: #f7e089;">
-        <h3>Zahlensystem der Deutschen Kanzleischrift</h3>
-        <p>In der Deutschen Kanzleischrift bleibt das gesamte <strong>indisch-arabische Zahlensystem</strong> in seiner vertrauten Form erhalten:</p>
+        <h3>Zahlensystem & Satzzeichen</h3>
         <ul>
-          <li>Alle Zahlenwerte (<code>0, 1, 2, 3, 4, 5, 6, 7, 8, 9</code>) werden nicht durch Buchstaben ersetzt, sondern wie gewohnt geschrieben.</li>
-          <li>Tausendertrennpunkte und mathematische Vorzeichen bleiben unverändert bestehen.</li>
+          <li><strong>Indisch-Arabische Ziffern (0–9):</strong> Die Deutsche Kanzleischrift belässt alle Zahlen von <code>0 bis 9</code> in ihrer unveränderten indisch-arabischen Reinform. Tausendertrennpunkte und mathematische Operatoren bleiben exakt erhalten.</li>
+          <li><strong>Virgel (⁄) als Kommaersatz:</strong> Das grammatische Komma im Fließtext wird historisch korrekt durch den Kanzleischrägstrich (die Virgel <code>⁄</code>) ersetzt. Wichtig: Ein Dezimalkomma zwischen Ziffern (z.&nbsp;B. <code>12,50</code>) bleibt als Komma unverändert erhalten, um Verwechslungen mit Bruchstrichen auszuschließen.</li>
         </ul>
       </div>
 
       <div class="rule-box">
-        <h3>1. Regeln für S: Langes s (ſ), Rundes s (s) und Eszett (ß)</h3>
-        <p>Die Deutsche Kanzleischrift unterscheidet streng zwischen den historischen S-Formen:</p>
+        <h3>1. Universelle Geminationsregel (Geminations-Makron ◌̄)</h3>
+        <p>Jeder doppelt geschriebene Buchstabe wird ausnahmslos durch ein Makron (<code>◌̄</code>) über dem einfachen Grundzeichen dargestellt. Dies gilt universell für alle Konsonanten und Vokale (z.&nbsp;B. <code>aa</code> ➔ <strong>ā</strong>, <code>ee</code> ➔ <strong>ē</strong>, <code>ll</code> ➔ <strong>l̄</strong>, <code>mm</code> ➔ <strong>ń̄</strong>, <code>nn</code> ➔ <strong>n̄</strong>, <code>oo</code> ➔ <strong>ō</strong>, <code>ss</code> ➔ <strong>s̄</strong> bzw. <strong>ſ̄</strong>, <code>tt</code> ➔ <strong>đ̄</strong>). Eigene Listeneinträge für Einzeldopplungen entfallen hierdurch vollständig.</p>
+        <p>Wird ein Text rückkonvertiert, löst das Makron über jedem Zeichen exakt die Verdopplung des Stammbuchstabens aus (z.&nbsp;B. <em>Wās̄͛</em> ➔ <em>Wasser</em>).</p>
+      </div>
+
+      <div class="rule-box">
+        <h3>2. Ausführliche Regeln für S: Langes s (ſ), Rundes s (s) und Eszett (ß)</h3>
+        <p>Die Deutsche Kanzleischrift unterscheidet streng zwischen den historischen S-Formen nach silbischen und morphematischen Kriterien:</p>
         <ul>
           <li><strong>Langes s (ſ):</strong>
             <ul>
-              <li><em>Silbenanlaut:</em> Am Anfang eines Wortes oder einer Silbe vor Vokalen (z.&nbsp;B. <em>ſeh̨, ſag̨, Ro-ſe</em>).</li>
-              <li><em>Silbeninlaut:</em> Im Inneren einer Silbe vor Vokal oder Konsonantenverbindung des Stammes (z.&nbsp;B. <em>Knoſ-pe</em>).</li>
+              <li><em>Silbenanlaut:</em> Am Anfang eines Wortes oder einer Silbe direkt vor Vokalen (z.&nbsp;B. <em>ſehen, ſagen, Ro-ſe, ge-ſund</em>).</li>
+              <li><em>Silbeninlaut:</em> Im Inneren einer Silbe vor Vokal oder Konsonantenverbindung des Stammes (z.&nbsp;B. <em>Knoſ-pe, glei-ſen, Weſ-pe</em>), sofern nicht durch die Sonderzeichen <strong>Š</strong> (Sch), <strong>Ś</strong> (Sp) oder <strong>Ↄ</strong> (St) ersetzt.</li>
+              <li><em>Vor dem Buchstaben k:</em> In stammhaften Verbindungen wie <em>Maſ-ke, Dis-kus</em>.</li>
             </ul>
           </li>
           <li><strong>Rundes s / Schluss-s (s):</strong>
             <ul>
-              <li><em>Wortende:</em> Am absoluten Ende eines Wortes (z.&nbsp;B. <em>Haus, Glas, dies</em>).</li>
-              <li><em>Silben- und Morphemende:</em> Am Ende einer Silbe bzw. eines Wortstamms vor Zusammensetzungen oder Suffixen.</li>
+              <li><em>Wortende:</em> Am absoluten grammatischen Ende eines Wortes (z.&nbsp;B. <em>Haus, Glas, dies, Gans</em>).</li>
+              <li><em>Silben- und Morphemende:</em> Am Ende einer Silbe bzw. eines Wortstamms vor einer Morphemfuge in Zusammensetzungen oder vor Suffixen (z.&nbsp;B. <em>Haus-tür, Eis-berg, Häus-chen, Lis-t</em>).</li>
+              <li><em>Vor Flexionsendungen:</em> Vor grammatischen Endungen wie <em>-t</em> oder <em>-st</em>, wenn das Stamm-s erhalten bleibt (z.&nbsp;B. <em>er lös-te, er blies-te</em>).</li>
             </ul>
           </li>
-          <li><strong>Eszett (ß) & Doppel-SS (S̄ / s̄):</strong>
+          <li><strong>Eszett (ß) vs. Geminiertes Doppel-S (S̄ / s̄):</strong>
             <ul>
-              <li><strong>ß:</strong> Steht nach langem Vokal oder Diphthong (z.&nbsp;B. <em>Fuß, fließ̨, heiß</em>). Großes Eszett <code>ẞ</code> ➔ <strong>S̄</strong>.</li>
-              <li><strong>S̄ / s̄:</strong> Nach kurzem Vokal wird stattdessen das gedoppelte Zeichen mit Überstrich gesetzt: <code>SS / ss</code> ➔ <strong>S̄ / s̄</strong>.</li>
+              <li><strong>Eszett (ß):</strong> Steht historisch als Ligatur aus <em>ſ</em> und <em>z</em> (ſz) bzw. <em>ſ</em> und <em>s</em> (ſs) ausschließlich <strong>nach langem Vokal oder Diphthong</strong> (z.&nbsp;B. <em>Fuß, fließen, heiß, groß</em>). Ein großes Eszett wird als <strong>ẞ</strong> wiedergegeben.</li>
+              <li><strong>Doppel-S mit Makron (S̄ / s̄):</strong> Nach <strong>kurzem Vokal</strong> wird anstelle des Eszetts gemäß der allgemeinen Geminationsregel das verdoppelte 'ss' durch das Makron über dem s gesetzt: <code>ss</code> ➔ <strong>s̄</strong> bzw. <strong>ſ̄</strong> (z.&nbsp;B. <em>faſ-ſen</em> ➔ <em>fas̄en</em>, <em>Schloss</em> ➔ <em>Šlos̄</em>).</li>
             </ul>
           </li>
         </ul>
       </div>
 
       <div class="rule-box">
-        <h3>2. Kanzlei-Abbreviaturen (Kürzungszeichen) & Satzzeichen</h3>
+        <h3>3. Regeln für das Dehnungs-H (aus der Kanzleischrift übertragen)</h3>
         <ul>
-          <li><strong>Virgel (⁄):</strong> Ersetzt in der Kanzleischrift das Satzzeichen Komma: <code>,</code> ➔ <strong>⁄</strong>.</li>
-          <li><strong>Kürzungs-Ogonek (◌̨) für „-en“:</strong> An den letzten Buchstaben eines Wortstamms vor der Endung <em>-en</em> wird das Kanzleihäkchen angehängt (z.&nbsp;B. <em>geh̨, hab̨</em>).</li>
-          <li><strong>Hochgestelltes Kanzlei-r (◌͛) für „-er“:</strong> Tritt an die Stelle der Wortendung <em>-er</em> (z.&nbsp;B. <em>Muſt͛, VVas̄͛</em>).</li>
+          <li><strong>Anlautendes H:</strong> Am Silben- bzw. Wortanfang vor Vokal bleibt das reguläre <strong>H / h</strong> vollständig erhalten (z.&nbsp;B. <em>Haus, hoffen</em>).</li>
+          <li><strong>Dehnungs-H am absoluten Wortende:</strong> Steht ein Dehnungs-h direkt am Wortende nach einem Vokal, wird kein separates H geschrieben, sondern an den Vokal ein nachgestellter Apostroph gesetzt: <code>ah</code> ➔ <strong>A’ / a’</strong>, <code>äh</code> ➔ <strong>Aͤ’ / aͤ’</strong>, <code>eh</code> ➔ <strong>E’ / e’</strong>, <code>oh</code> ➔ <strong>O’ / o’</strong>, <code>öh</code> ➔ <strong>Oͤ’ / oͤ’</strong>, <code>uh</code> ➔ <strong>V̆’ / v̆’</strong>, <code>üh</code> ➔ <strong>Vͤ’ / vͤ’</strong> (z.&nbsp;B. <em>Reh</em> ➔ <em>RE’ / re’</em>, <em>Schuh</em> ➔ <em>Šv̆’</em>).</li>
+          <li><strong>Dehnungs-H im Silbeninlaut:</strong> Steht das Dehnungs-h im Wortinneren vor einem Konsonanten oder intervokalisch vor E, entfällt der Buchstabe H als Einzelzeichen; stattdessen erhält das nachfolgende Schriftzeichen einen vorangestellten Apostroph:
+            <br><code>Hd</code> ➔ <strong>’D / ’d</strong>, <code>He</code> ➔ <strong>’E / ’e</strong> (intervokalisch), <code>Hl</code> ➔ <strong>’L / ’l</strong>, <code>Hm</code> ➔ <strong>’Ń / ’ń</strong>, <code>Hn</code> ➔ <strong>’N̄ / ’n̄</strong>, <code>Hr</code> ➔ <strong>’R / ’r</strong>, <code>Hs</code> ➔ <strong>’S / ’ſ</strong> (Inlaut) bzw. <strong>’s</strong> (Auslaut), <code>Hst</code> ➔ <strong>’Ↄ / ’ↄ</strong>, <code>Ht</code> ➔ <strong>’Đ / ’đ</strong>.</li>
+        </ul>
+      </div>
+
+      <div class="rule-box">
+        <h3>4. Historische Kanzlei-Abbreviaturen (Kürzungszeichen)</h3>
+        <ul>
+          <li><strong>Kürzungs-Ogonek (◌̨) für „-en“:</strong> An den letzten Konsonanten eines Wortes vor der Infinitiv- oder Pluralendung <em>-en</em> wird das Kanzlei-Häkchen angehängt (z.&nbsp;B. <em>geh̨, hab̨, mach̨</em>).</li>
+          <li><strong>Hochgestelltes Kanzlei-r (◌͛) für „-er“:</strong> Tritt an die Stelle der Wortendung <em>-er</em> (z.&nbsp;B. <em>Must͛, Vats͛, Wass͛</em>).</li>
+          <li><strong>Übergesetztes d (◌ͩ) für „-de“:</strong> Tritt als Endungs- und Silbenkürzung auf (z.&nbsp;B. <em>Gnadͩ, Freudͩ</em>).</li>
+          <li><strong>Übergesetztes t (◌ͭ) für „-te“:</strong> Kanzleikürzung für Vergangenheits- und Partizipendungen (z.&nbsp;B. <em>lobͭ, reisͭ</em>).</li>
+          <li><strong>Übergesetztes i (◌ͥ) für „-in“:</strong> Weibliche Endungssilbe <em>-in</em> (z.&nbsp;B. <em>Könıgͥ</em>).</li>
+          <li><strong>Übergesetztes u (◌ͧ) für „un-“:</strong> Das lateinisch-deutsche Negationspräfix <em>un-</em> wird über den ersten Buchstaben des folgenden Stammes gesetzt (z.&nbsp;B. <em>ͧglaublich, ͧsicher</em>).</li>
         </ul>
       </div>
 
@@ -2094,52 +2309,140 @@ function renderDocumentation() {
               <th>Deutsches Muster</th>
               <th>Großbuchstabe</th>
               <th>Kleinbuchstabe</th>
-              <th>Bedingung / Kontext</th>
-              <th>Kanzlei-Bedeutung</th>
+              <th>Kontext / Lautwert</th>
+              <th>Beschreibung</th>
             </tr>
           </thead>
           <tbody id="rulesTableBody"></tbody>
         </table>
       </div>
     `;
-    renderRulesTable(DEUTSCH_SPEC, false);
+    renderRulesTable(DEUTSCH_SPEC, "none");
+  } else {
+    container.innerHTML = `
+      <h2 class="section-title">Ausführliches Nachschlagewerk: 3. Wetzel'sche Reduktionsschrift</h2>
+
+      <div class="rule-box" style="border-left-color: #f7e089;">
+        <h3>Zahlensystem: Römische Ziffern mit Vinculum (1 bis 3.999.999)</h3>
+        <p>In der Wetzel'schen Reduktionsschrift wird das klassische römische Zahlensystem (I, V, X, L, C, D, M) durch den mittelalterlichen Multiplikationsüberstrich (<strong>Vinculum ◌̅</strong>) erweitert. Ein übergesetzter Strich multipliziert den darunter liegenden Ziffernwert exakt mit <strong>1.000</strong>:</p>
+        <ul>
+          <li><strong>Multiplikationsstufen des Vinculums:</strong>
+            <ul>
+              <li><code>V̅</code> = 5.000 | <code>X̅</code> = 10.000 | <code>L̅</code> = 50.000</li>
+              <li><code>C̅</code> = 100.000 | <code>D̅</code> = 500.000 | <code>M̅</code> = 1.000.000</li>
+            </ul>
+          </li>
+          <li><strong>Subtraktions- und Additionsregeln:</strong>
+            <ul>
+              <li><code>4.000</code> wird als <code>MV̅</code> notiert (1.000 vor 5.000).</li>
+              <li><code>9.000</code> wird als <code>MX̅</code> notiert (1.000 vor 10.000).</li>
+              <li><code>40.000</code> = <code>X̅L̅</code> | <code>90.000</code> = <code>X̅C̅</code> | <code>400.000</code> = <code>C̅D̅</code> | <code>900.000</code> = <code>C̅M̅</code>.</li>
+              <li>Zusammengesetztes Beispiel: <code>3.456.789</code> ➔ <strong>M̅M̅M̅C̅D̅L̅V̅DCCLXXXIX</strong>.</li>
+            </ul>
+          </li>
+          <li><strong>Wertebereich & Fallback auf Arabische Standardziffern:</strong>
+            <ul>
+              <li>Zahlen ab <code>4.000.000</code> überschreiten die additive Grenze des standardisierten Vinculums und verbleiben als indisch-arabische Ziffern.</li>
+              <li>Negative Zahlen (z.&nbsp;B. <code>-15</code>) sowie Dezimalbrüche mit Komma (z.&nbsp;B. <code>0,75</code>) bleiben in Standardziffern erhalten, da das römische System weder Vorzeichen noch Null kennt.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="rule-box">
+        <h3>Systematik der diakritischen Laut-Reduktion</h3>
+        <p>Die Wetzel'sche Schrift führt das erweiterte Alphabet durch präzise diakritische Markierungen auf einen kompakten Kernbestand zurück. Verwandte Laute (Artikulationsort und -art) teilen sich dieselbe Stammglyphe und werden durch Akzente, Cedillen oder Häkchen differenziert:</p>
+        <ul>
+          <li><strong>Labiale (Lippenlaute):</strong>
+            <ul>
+              <li><strong>F / f ➔ V́ / v́:</strong> Der Reibelaut F wird als stimmhaftes V mit Akut dargestellt.</li>
+              <li><strong>P / p ➔ B́ / b́:</strong> Der stimmlose Plosiv P wird auf die Basis B mit Akut reduziert.</li>
+              <li><strong>W / w ➔ V̀ / v̀:</strong> Der Halbvokal W wird als V mit Gravis wiedergegeben.</li>
+            </ul>
+          </li>
+          <li><strong>Dentale und Alveolare (Zahn- und Gaumenlaute):</strong>
+            <ul>
+              <li><strong>T / t ➔ D́ / d́:</strong> Der stimmlose Verschlusslaut T wird als D mit Akut geschrieben.</li>
+              <li><strong>Z / z ➔ D̀ / d̀:</strong> Die Affrikate Z wird als D mit Gravis geschrieben.</li>
+              <li><strong>S / s ➔ Ç / ç:</strong> Der Sibilant S wird universell durch das C mit Cedille dargestellt.</li>
+            </ul>
+          </li>
+          <li><strong>Velare und Gutturale (Kehl- und Gaumenlaute):</strong>
+            <ul>
+              <li><strong>G / g ➔ Ć / ć:</strong> G erhält den diakritischen Akut über C.</li>
+              <li><strong>K / k ➔ C̀ / c̀:</strong> K wird durch C mit Gravis ersetzt.</li>
+              <li><strong>X / x ➔ Ĉ / ĉ:</strong> X wird durch C mit Zirkumflex ersetzt.</li>
+              <li><strong>QU / qu ➔ C̆ / c̆:</strong> Die Verbindung QU wird als C mit Breve zusammengefasst.</li>
+              <li><strong>H / h ➔ ’:</strong> Der Hauchlaut H wird auf das reine Aspirationszeichen (den Apostroph <code>’</code>) reduziert.</li>
+            </ul>
+          </li>
+          <li><strong>Liquide, Nasale & Vokale:</strong>
+            <ul>
+              <li><strong>L / l ➔ Į / į:</strong> L erhält ein Kanzlei-Häkchen (Ogonek).</li>
+              <li><strong>M / m ➔ Ń / ń:</strong> Der bilabiale Nasal M wird als palatalisierter Nasal N mit Akut dargestellt.</li>
+              <li><strong>U / u ➔ V̆ / v̆:</strong> U wird differenziert als V mit Breve geschrieben, während V unmarkiert bleibt.</li>
+              <li><strong>J / j ➔ Í / í</strong> und <strong>Y / y ➔ Ì / ì</strong>.</li>
+              <li>Die Grundbuchstaben <strong>A, Ä, B, C, D, E, I, N, O, Ö, R, Ü, V</strong> sowie <strong>ẞ / ß</strong> bleiben in ihrer lateinischen Reinform unberührt.</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+      <div class="table-container">
+        <table class="rules-table">
+          <thead>
+            <tr>
+              <th>Deutsches Muster</th>
+              <th>Großbuchstabe</th>
+              <th>Kleinbuchstabe</th>
+              <th>Kontext / Lautwert</th>
+              <th>Beschreibung</th>
+            </tr>
+          </thead>
+          <tbody id="rulesTableBody"></tbody>
+        </table>
+      </div>
+    `;
+    renderRulesTable(WETZEL_SPEC, "roman");
   }
 }
 
-function renderRulesTable(specList, includeGreekNumbers) {
+function renderRulesTable(specList, numberType) {
   const tbody = document.getElementById("rulesTableBody");
   if (!tbody) return;
   tbody.innerHTML = "";
 
   specList.forEach(rule => {
     const tr = document.createElement("tr");
-
-    let cond = "Allgemein";
-    if (rule.wordEnd) cond = '<span class="badge">Nur am Wortende</span>';
-    else if (rule.de.includes("Ach")) cond = '<span class="badge">Nach a, o, u, au</span>';
-    else if (rule.de.includes("Ich")) cond = '<span class="badge">Nach e, i, eu, äu & Konsonanten</span>';
-    else if (rule.de.includes("stimmhaft") || rule.de.includes("Schaft-s")) cond = '<span class="badge">Silbenanlaut / Inlaut vor Vokal</span>';
-    else if (rule.de.includes("stimmlos") || rule.de.includes("Schluss-s")) cond = '<span class="badge">Wortende & Silbenschluss</span>';
-    else if (rule.de.includes("Abbreviatur") || rule.group === "abbr") cond = '<span class="badge">Historische Kanzlei-Abbreviatur</span>';
-
     tr.innerHTML = `
       <td><strong>${rule.de}</strong></td>
       <td style="font-size:1.25rem; font-family:'EB Garamond', serif; color:var(--gold-light);">${rule.maj || '-'}</td>
       <td style="font-size:1.25rem; font-family:'EB Garamond', serif; color:var(--gold-light);">${rule.min || '-'}</td>
-      <td>${cond}</td>
+      <td><span class="badge">${rule.group}</span></td>
       <td style="color:var(--text-muted);">${rule.desc}</td>
     `;
     tbody.appendChild(tr);
   });
 
-  if (includeGreekNumbers) {
+  if (numberType === "greek") {
     GREEK_NUMS_SPEC.forEach(num => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td><strong>Zahl: ${num.val > 0 ? num.val.toLocaleString('de-DE') : num.name}</strong></td>
         <td style="font-size:1.25rem; font-family:'EB Garamond', serif; color:var(--gold-light);" colspan="2">${num.sym}</td>
-        <td><span class="badge">Milesisches Zahlensystem</span></td>
+        <td><span class="badge">Milesisch</span></td>
         <td style="color:var(--text-muted);">${num.type} (${num.name})</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  } else if (numberType === "roman") {
+    ROMAN_VINCULUM_SPEC.forEach(num => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><strong>Zahl: ${num.val.toLocaleString('de-DE')}</strong></td>
+        <td style="font-size:1.25rem; font-family:'EB Garamond', serif; color:var(--gold-light);" colspan="2">${num.sym}</td>
+        <td><span class="badge">Vinculum</span></td>
+        <td style="color:var(--text-muted);">${num.name}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -2179,7 +2482,7 @@ function showToast(msg) {
   setTimeout(() => toast.classList.remove("show"), 2000);
 }
 
-// Initialisierung beim Laden
+// Initialisierung
 window.addEventListener("DOMContentLoaded", () => {
   switchScript("dionysos");
   clearInput();
